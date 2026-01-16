@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "CleanTemplatePackages",
+    name: "AppCorePackages",
     platforms: [.iOS(.v18)],
     products: [
         .library(
