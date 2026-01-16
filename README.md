@@ -31,11 +31,11 @@ Add products to targets:
 .target(
     name: "MyApp",
     dependencies: [
-        .product(name: "Domain", package: "AppCorePackages"),
-        .product(name: "Data", package: "AppCorePackages"),
-        .product(name: "Networking", package: "AppCorePackages"),
-        .product(name: "LocalPersistance", package: "AppCorePackages"),
-        .product(name: "DesignSystem", package: "AppCorePackages")
+        .product(name: "Domain", package: "app-core-packages"),
+        .product(name: "Data", package: "app-core-packages"),
+        .product(name: "Networking", package: "app-core-packages"),
+        .product(name: "LocalPersistance", package: "app-core-packages"),
+        .product(name: "DesignSystem", package: "app-core-packages")
     ]
 )
 ```
