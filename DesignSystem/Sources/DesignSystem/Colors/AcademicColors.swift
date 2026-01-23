@@ -1,110 +1,110 @@
 import SwiftUI
 
-/// Minimal neutral palette with an Apple-like feel
+/// Calm minimal palette with warm neutrals and deep blue accents
 public extension Color {
 
     // MARK: - Light Mode Brand Colors
 
-    /// Primary brand (near black)
-    static let yaleBlue = Color(hex: "111111")
+    /// Primary accent (deep blue)
+    static let yaleBlue = Color(hex: "2B2DEB")
 
-    /// Secondary brand (deep charcoal)
-    static let oxfordNavy = Color(hex: "1F2937")
+    /// Secondary brand (ink)
+    static let oxfordNavy = Color(hex: "1E1E1E")
 
-    /// Brand accent (charcoal)
-    static let prussianBlue = Color(hex: "2B2B2B")
+    /// Brand accent (ink blue)
+    static let prussianBlue = Color(hex: "2626D8")
 
     /// Info (blue)
-    static let powderBlue = Color(hex: "2563EB")
+    static let powderBlue = Color(hex: "2B2DEB")
 
-    /// Tertiary background (soft mist)
-    static let mintCream = Color(hex: "F2F2F4")
+    /// Tertiary background (soft lilac)
+    static let mintCream = Color(hex: "E4E1EC")
 
     /// Neutral surface background
-    static let cloudWhite = Color(hex: "FFFFFF")
+    static let cloudWhite = Color(hex: "F3F1EE")
 
     /// Off-white primary background
-    static let canvasWhite = Color(hex: "F7F7F7")
+    static let canvasWhite = Color(hex: "E9E7E3")
 
     /// Subtle surface tint
-    static let surfaceTint = Color(hex: "F2F3F5")
+    static let surfaceTint = Color(hex: "E9E6F0")
 
     /// Soft border
-    static let borderLight = Color(hex: "E5E7EB")
+    static let borderLight = Color(hex: "D8D4CF")
 
     /// Divider gray
-    static let dividerLight = Color(hex: "E2E4E8")
+    static let dividerLight = Color(hex: "D2CEC9")
 
     /// Primary text
-    static let textPrimaryLight = Color(hex: "111111")
+    static let textPrimaryLight = Color(hex: "1C1B1A")
 
     /// Secondary text
-    static let textSecondaryLight = Color(hex: "6B7280")
+    static let textSecondaryLight = Color(hex: "5F5D5A")
 
     /// Tertiary text
-    static let textTertiaryLight = Color(hex: "9CA3AF")
+    static let textTertiaryLight = Color(hex: "8C8A86")
 
     /// Success green
-    static let sageGreen = Color(hex: "16A34A")
+    static let sageGreen = Color(hex: "2F8F6A")
 
     /// Warning amber
-    static let goldenrod = Color(hex: "F59E0B")
+    static let goldenrod = Color(hex: "B9852A")
 
     /// Error red
-    static let coralRed = Color(hex: "EF4444")
+    static let coralRed = Color(hex: "B94B4B")
 
     // MARK: - Dark Mode Brand Colors (Lighter Variants)
 
     /// Primary for dark mode
-    static let skyBlue = Color(hex: "EDEDED")
+    static let skyBlue = Color(hex: "8F95FF")
 
     /// Secondary for dark mode
-    static let periwinkle = Color(hex: "C4CAD3")
+    static let periwinkle = Color(hex: "D0CDC7")
 
     /// Accent for dark mode
-    static let steelBlue = Color(hex: "DADADA")
+    static let steelBlue = Color(hex: "9AA1FF")
 
     /// Info for dark mode
-    static let lightPowderBlue = Color(hex: "60A5FA")
+    static let lightPowderBlue = Color(hex: "9AA1FF")
 
     /// Tertiary background for dark mode
-    static let paleMint = Color(hex: "141419")
+    static let paleMint = Color(hex: "1A1922")
 
     /// Dark primary background
-    static let midnight = Color(hex: "0B0C0E")
+    static let midnight = Color(hex: "0F0F12")
 
     /// Dark secondary background
-    static let midnightSecondary = Color(hex: "111317")
+    static let midnightSecondary = Color(hex: "15151B")
 
     /// Dark surface
-    static let surfaceDark = Color(hex: "121418")
+    static let surfaceDark = Color(hex: "1C1C22")
 
     /// Dark surface variant
-    static let surfaceVariantDark = Color(hex: "1A1C21")
+    static let surfaceVariantDark = Color(hex: "23232B")
 
     /// Dark border
-    static let borderDark = Color(hex: "242730")
+    static let borderDark = Color(hex: "2A2A33")
 
     /// Dark divider
-    static let dividerDark = Color(hex: "1E2128")
+    static let dividerDark = Color(hex: "2D2D36")
 
     /// Primary text (dark)
-    static let textPrimaryDark = Color(hex: "F5F5F7")
+    static let textPrimaryDark = Color(hex: "F1F0EE")
 
     /// Secondary text (dark)
-    static let textSecondaryDark = Color(hex: "C7CBD1")
+    static let textSecondaryDark = Color(hex: "C6C2BC")
 
     /// Tertiary text (dark)
-    static let textTertiaryDark = Color(hex: "8A9099")
+    static let textTertiaryDark = Color(hex: "9B9892")
 
     /// Success green (dark)
-    static let lightSage = Color(hex: "4ADE80")
+    static let lightSage = Color(hex: "54C38C")
 
     /// Warning amber (dark)
-    static let lightGold = Color(hex: "FBBF24")
+    static let lightGold = Color(hex: "D5A252")
 
     /// Error red (dark)
-    static let lightCoral = Color(hex: "F87171")
+    static let lightCoral = Color(hex: "D87B7B")
 
     // MARK: - Adaptive Colors (Auto-switch based on color scheme)
 

@@ -11,14 +11,14 @@ public struct CardSurfaceModifier: ViewModifier {
     let shadowYOffset: CGFloat
 
     public init(
-        cornerRadius: CGFloat = 16,
-        tint: Color = Color.textPrimary.opacity(0.02),
+        cornerRadius: CGFloat = DSRadii.lg,
+        tint: Color = Color.surfaceVariant.opacity(0.6),
         usesGlass: Bool = false,
         isInteractive: Bool = false,
         borderColor: Color = Color.border,
-        shadowColor: Color = Color.black.opacity(0.05),
-        shadowRadius: CGFloat = 6,
-        shadowYOffset: CGFloat = 3
+        shadowColor: Color = DSShadows.card.color,
+        shadowRadius: CGFloat = DSShadows.card.radius,
+        shadowYOffset: CGFloat = DSShadows.card.y
     ) {
         self.cornerRadius = cornerRadius
         self.tint = tint
@@ -53,14 +53,14 @@ public struct CardSurfaceModifier: ViewModifier {
 
 public extension View {
     func cardSurface(
-        cornerRadius: CGFloat = 16,
-        tint: Color = Color.textPrimary.opacity(0.02),
+        cornerRadius: CGFloat = DSRadii.lg,
+        tint: Color = Color.surfaceVariant.opacity(0.6),
         usesGlass: Bool = false,
         isInteractive: Bool = false,
         borderColor: Color = Color.border,
-        shadowColor: Color = Color.black.opacity(0.05),
-        shadowRadius: CGFloat = 6,
-        shadowYOffset: CGFloat = 3
+        shadowColor: Color = DSShadows.card.color,
+        shadowRadius: CGFloat = DSShadows.card.radius,
+        shadowYOffset: CGFloat = DSShadows.card.y
     ) -> some View {
         modifier(
             CardSurfaceModifier(

@@ -2,7 +2,14 @@ import SwiftUI
 
 /// Main theme protocol that aggregates all design tokens
 public protocol Theme: Sendable {
-    var colors: ColorPalette { get }
-    var typography: TypographyScale { get }
-    var spacing: SpacingScale { get }
+    var tokens: DesignTokens { get }
+}
+
+public extension Theme {
+    var colors: ColorPalette { tokens.colors }
+    var typography: TypographyScale { tokens.typography }
+    var spacing: SpacingScale { tokens.spacing }
+    var radii: RadiiScale { tokens.radii }
+    var shadows: ShadowScale { tokens.shadows }
+    var glass: GlassTokens { tokens.glass }
 }

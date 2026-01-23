@@ -1,56 +1,65 @@
 import SwiftUI
 
-/// A compact list row with optional leading icon and trailing accessory.
-public struct DSListRow: View {
+/// A compact list row with optional leading icon and trailing control.
+public struct DSListRow<Trailing: View>: View {
     let title: String
     let subtitle: String?
     let leadingIcon: String?
     let leadingTint: Color
-    let trailingText: String?
-    let trailingIcon: String?
-    let showsDisclosure: Bool
+    let titleColor: Color
     let minHeight: CGFloat
+    let trailing: Trailing
     let action: (() -> Void)?
 
     public init(
         title: String,
         subtitle: String? = nil,
         leadingIcon: String? = nil,
-        leadingTint: Color = Color.textPrimary,
-        trailingText: String? = nil,
-        trailingIcon: String? = nil,
-        showsDisclosure: Bool = false,
+        leadingTint: Color = Color.themePrimary,
+        titleColor: Color = Color.themePrimary,
         minHeight: CGFloat = 52,
         action: (() -> Void)? = nil
+    ) where Trailing == EmptyView {
+        self.title = title
+        self.subtitle = subtitle
+        self.leadingIcon = leadingIcon
+        self.leadingTint = leadingTint
+        self.titleColor = titleColor
+        self.minHeight = minHeight
+        self.trailing = EmptyView()
+        self.action = action
+    }
+
+    public init(
+        title: String,
+        subtitle: String? = nil,
+        leadingIcon: String? = nil,
+        leadingTint: Color = Color.themePrimary,
+        titleColor: Color = Color.themePrimary,
+        minHeight: CGFloat = 52,
+        action: (() -> Void)? = nil,
+        @ViewBuilder trailing: () -> Trailing
     ) {
         self.title = title
         self.subtitle = subtitle
         self.leadingIcon = leadingIcon
         self.leadingTint = leadingTint
-        self.trailingText = trailingText
-        self.trailingIcon = trailingIcon
-        self.showsDisclosure = showsDisclosure
+        self.titleColor = titleColor
         self.minHeight = minHeight
+        self.trailing = trailing()
         self.action = action
     }
 
     public var body: some View {
         let rowContent = HStack(spacing: DSSpacing.smd) {
             if let leadingIcon {
-                DSIconBadge(
-                    systemName: leadingIcon,
-                    size: 28,
-                    cornerRadius: 9,
-                    backgroundColor: leadingTint.opacity(0.12),
-                    foregroundColor: leadingTint,
-                    font: .headlineSmall()
-                )
+                SketchIcon(systemName: leadingIcon, size: 18, color: leadingTint)
             }
 
             VStack(alignment: .leading, spacing: DSSpacing.xs) {
                 Text(title)
                     .font(.bodyMedium())
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(titleColor)
 
                 if let subtitle {
                     Text(subtitle)
@@ -61,21 +70,7 @@ public struct DSListRow: View {
 
             Spacer(minLength: DSSpacing.sm)
 
-            if let trailingText {
-                Text(trailingText)
-                    .font(.captionLarge())
-                    .foregroundStyle(Color.textTertiary)
-            }
-
-            if let trailingIcon {
-                Image(systemName: trailingIcon)
-                    .font(.captionLarge())
-                    .foregroundStyle(Color.textTertiary)
-            } else if showsDisclosure {
-                Image(systemName: "chevron.right")
-                    .font(.captionLarge())
-                    .foregroundStyle(Color.textTertiary)
-            }
+            trailing
         }
         .padding(.horizontal, DSSpacing.md)
         .padding(.vertical, DSSpacing.smd)
@@ -97,24 +92,22 @@ public struct DSListRow: View {
 #Preview("Rows") {
     VStack(spacing: 0) {
         DSListRow(
-            title: "Onboarding",
-            subtitle: "Complete setup",
-            leadingIcon: "sparkles",
-            leadingTint: .info,
-            trailingText: "2/3",
-            showsDisclosure: true
-        )
+            title: "Notifications",
+            subtitle: "Set a time for daily memories",
+            leadingIcon: "bell"
+        ) {
+            TimePill(title: "17:00")
+        }
         Divider()
         DSListRow(
-            title: "Subscription",
-            subtitle: "Preview the paywall",
-            leadingIcon: "creditcard.fill",
-            leadingTint: .success,
-            showsDisclosure: true
-        )
+            title: "Restore",
+            subtitle: "Have full access?",
+            leadingIcon: "arrow.counterclockwise"
+        ) {
+            IconTileButton(systemName: "tray.and.arrow.down")
+        }
     }
-    .background(Color.surface)
-    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    .cardSurface(cornerRadius: DSRadii.lg)
     .padding()
     .background(Color.backgroundPrimary)
 }

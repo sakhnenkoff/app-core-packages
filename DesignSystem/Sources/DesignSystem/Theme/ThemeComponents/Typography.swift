@@ -9,6 +9,7 @@ public struct TextStyle: Sendable {
     public init(
         size: CGFloat,
         weight: Font.Weight,
+        design: Font.Design = .default,
         customFont: String? = nil
     ) {
         self.size = size
@@ -17,7 +18,7 @@ public struct TextStyle: Sendable {
         if let customFont {
             self.font = .custom(customFont, size: size).weight(weight)
         } else {
-            self.font = .system(size: size, weight: weight)
+            self.font = .system(size: size, weight: weight, design: design)
         }
     }
 }

@@ -46,7 +46,7 @@ public struct DSButton: View {
 
     @ViewBuilder
     private var buttonLabel: some View {
-        let shape = RoundedRectangle(cornerRadius: size.cornerRadius)
+        let shape = RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous)
 
         let content = HStack(spacing: DSSpacing.sm) {
             if isLoading {
@@ -56,8 +56,7 @@ public struct DSButton: View {
                     .scaleEffect(0.8)
             } else {
                 if let icon {
-                    Image(systemName: icon)
-                        .font(.system(size: size.iconSize, weight: .semibold))
+                    SketchIcon(systemName: icon, size: size.iconSize, color: style.foregroundColor)
                 }
 
                 Text(title)
@@ -70,16 +69,19 @@ public struct DSButton: View {
             .frame(maxWidth: isFullWidth ? .infinity : nil)
             .frame(minHeight: size.height)
 
-        if #available(iOS 26.0, *), style.usesGlass {
+        if style.usesGlass {
             content
-                .glassEffect(
-                    .regular.tint(style.glassTint).interactive(),
-                    in: .rect(cornerRadius: size.cornerRadius)
+                .background(
+                    shape
+                        .fill(style.backgroundColor)
+                        .glassSurface(
+                            cornerRadius: size.cornerRadius,
+                            tint: style.glassTint,
+                            borderColor: style.borderColor,
+                            shadow: DSShadows.soft,
+                            isInteractive: true
+                        )
                 )
-                .overlay(
-                    shape.strokeBorder(style.borderColor, lineWidth: style.borderWidth)
-                )
-                .shadow(color: style.glowColor, radius: style.glowRadius, x: 0, y: style.glowYOffset)
         } else {
             content
                 .background(shape.fill(style.backgroundStyle))
@@ -124,7 +126,7 @@ public enum DSButtonStyle {
         case .primary:
             return .textOnPrimary
         case .secondary:
-            return .textPrimary
+            return .themePrimary
         case .tertiary:
             return .textSecondary
         case .destructive:
@@ -137,7 +139,7 @@ public enum DSButtonStyle {
         case .primary:
             return .clear
         case .secondary:
-            return .border
+            return .themePrimary.opacity(0.35)
         case .tertiary:
             return .clear
         case .destructive:
@@ -199,15 +201,24 @@ public enum DSButtonStyle {
     }
 
     var usesGlass: Bool {
-        false
+        switch self {
+        case .tertiary:
+            return false
+        default:
+            return true
+        }
     }
 
     var glassTint: Color {
         switch self {
+        case .primary:
+            return Color.themePrimary.opacity(0.3)
         case .secondary:
-            return Color.textPrimary.opacity(0.04)
+            return DesignSystem.tokens.glass.tint
         case .tertiary:
             return Color.textPrimary.opacity(0.02)
+        case .destructive:
+            return Color.error.opacity(0.25)
         default:
             return .clear
         }
@@ -255,9 +266,9 @@ public enum DSButtonSize {
 
     var cornerRadius: CGFloat {
         switch self {
-        case .small: return DSSpacing.sm
-        case .medium: return DSSpacing.smd
-        case .large: return DSSpacing.md
+        case .small: return DSRadii.sm
+        case .medium: return DSRadii.lg
+        case .large: return DSRadii.xl
         }
     }
 
@@ -345,13 +356,13 @@ public struct DSIconButton: View {
     let icon: String
     let style: DSButtonStyle
     let size: DSIconButtonSize
-    let action: () -> Void
+    let action: (() -> Void)?
 
     public init(
         icon: String,
         style: DSButtonStyle = .tertiary,
         size: DSIconButtonSize = .medium,
-        action: @escaping () -> Void
+        action: (() -> Void)? = nil
     ) {
         self.icon = icon
         self.style = style
@@ -360,21 +371,45 @@ public struct DSIconButton: View {
     }
 
     public var body: some View {
-        Button(action: action) {
-            Image(systemName: icon)
-                .font(.system(size: size.iconSize, weight: .semibold))
-                .foregroundStyle(style.foregroundColor)
-                .frame(width: size.dimension, height: size.dimension)
-                .background(
-                    Circle()
-                        .fill(style.backgroundStyle)
-                )
-                .clipShape(Circle())
-                .overlay(
-                    Circle()
-                        .strokeBorder(style.borderColor, lineWidth: style.borderWidth)
-                )
-                .shadow(color: style.glowColor, radius: style.glowRadius, x: 0, y: style.glowYOffset)
+        IconTileButton(
+            systemName: icon,
+            size: size.dimension,
+            iconSize: size.iconSize,
+            tint: iconTint,
+            backgroundTint: iconBackground,
+            usesGlass: iconUsesGlass,
+            action: action
+        )
+    }
+
+    private var iconTint: Color {
+        switch style {
+        case .destructive:
+            return .error
+        case .tertiary:
+            return .textSecondary
+        default:
+            return .themePrimary
+        }
+    }
+
+    private var iconBackground: Color {
+        switch style {
+        case .destructive:
+            return Color.error.opacity(0.12)
+        case .tertiary:
+            return Color.surfaceVariant.opacity(0.6)
+        default:
+            return Color.surfaceVariant.opacity(0.8)
+        }
+    }
+
+    private var iconUsesGlass: Bool {
+        switch style {
+        case .tertiary:
+            return false
+        default:
+            return true
         }
     }
 }

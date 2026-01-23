@@ -3,7 +3,7 @@ import SwiftUI
 public struct AmbientBackground: View {
     private let intensity: CGFloat
 
-    public init(intensity: CGFloat = 0.08) {
+    public init(intensity: CGFloat = 0.06) {
         self.intensity = intensity
     }
 
@@ -18,22 +18,22 @@ public struct AmbientBackground: View {
                 ],
                 center: .topLeading,
                 startRadius: 0,
-                endRadius: 240
+                endRadius: 260
             )
 
             RadialGradient(
                 colors: [
-                    Color.surfaceVariant.opacity(intensity * 0.7),
+                    Color.surfaceVariant.opacity(intensity * 0.5),
                     Color.clear
                 ],
                 center: .bottomTrailing,
                 startRadius: 0,
-                endRadius: 260
+                endRadius: 320
             )
 
             LinearGradient(
                 colors: [
-                    Color.backgroundTertiary.opacity(intensity * 0.5),
+                    Color.backgroundTertiary.opacity(intensity * 0.45),
                     Color.clear
                 ],
                 startPoint: .top,

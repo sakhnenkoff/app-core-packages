@@ -31,6 +31,11 @@ public enum DesignSystem {
         _theme.spacing
     }
 
+    /// Convenience accessor for tokens
+    public static var tokens: DesignTokens {
+        _theme.tokens
+    }
+
     /// Configure the design system with a custom theme.
     /// Must be called once at app launch, before any UI is rendered.
     /// - Parameter theme: The theme to use throughout the app

@@ -1,61 +1,49 @@
 import SwiftUI
 
-/// Default theme tuned for a minimal, Apple-like aesthetic
+/// Default theme tuned for a calm, minimal, sketch-like aesthetic
 public struct DefaultTheme: Theme, Sendable {
-    public let colors: ColorPalette
-    public let typography: TypographyScale
-    public let spacing: SpacingScale
+    public let tokens: DesignTokens
 
     public init() {
-        self.colors = ColorPalette(
-            // Brand Colors (adaptive for dark mode)
-            primary: .adaptivePrimary,          // Near-black (light) / Soft white (dark)
-            secondary: .adaptiveSecondary,      // Charcoal (light) / Cool gray (dark)
-            accent: .adaptiveAccent,            // Dark accent (light) / Light accent (dark)
-            // Semantic Colors (adaptive for dark mode)
-            success: .adaptiveSuccess,          // Green (light) / Green (dark)
-            warning: .adaptiveWarning,          // Amber (light) / Amber (dark)
-            error: .adaptiveError,              // Red (light) / Red (dark)
-            info: .adaptiveInfo,                // Blue (light) / Blue (dark)
-            // Background Colors
-            backgroundPrimary: .adaptiveBackgroundPrimary,                         // Off-white (light) / Deep charcoal (dark)
-            backgroundSecondary: .adaptiveBackgroundSecondary,                     // White (light) / Dark surface (dark)
-            backgroundTertiary: .adaptiveTertiaryBackground,                       // Mist (light) / Tinted dark (dark)
-            // Text Colors
-            textPrimary: .adaptiveTextPrimary,                                     // Near-black (light) / Off-white (dark)
-            textSecondary: .adaptiveTextSecondary,                                 // Muted gray (light) / Soft gray (dark)
-            textTertiary: .adaptiveTextTertiary,                                   // Light gray (light) / Muted gray (dark)
-            textOnPrimary: Color(light: .white, dark: .textPrimaryLight),           // Adaptive contrast on primary
-            // Surface Colors
-            surface: .adaptiveSurface,                                             // White (light) / Dark surface (dark)
-            surfaceVariant: .adaptiveSurfaceVariant,                               // Tinted surface (light) / Deep surface (dark)
-            border: .adaptiveBorder,                                               // Subtle border
-            divider: .adaptiveDivider                                              // Divider color
+        let colors = ColorPalette(
+            primary: .adaptivePrimary,
+            secondary: .adaptiveSecondary,
+            accent: .adaptiveAccent,
+            success: .adaptiveSuccess,
+            warning: .adaptiveWarning,
+            error: .adaptiveError,
+            info: .adaptiveInfo,
+            backgroundPrimary: .adaptiveBackgroundPrimary,
+            backgroundSecondary: .adaptiveBackgroundSecondary,
+            backgroundTertiary: .adaptiveTertiaryBackground,
+            textPrimary: .adaptiveTextPrimary,
+            textSecondary: .adaptiveTextSecondary,
+            textTertiary: .adaptiveTextTertiary,
+            textOnPrimary: Color(light: .white, dark: .textPrimaryLight),
+            surface: .adaptiveSurface,
+            surfaceVariant: .adaptiveSurfaceVariant,
+            border: .adaptiveBorder,
+            divider: .adaptiveDivider
         )
 
-        self.typography = TypographyScale(
-            // Titles
-            titleLarge: TextStyle(size: 34, weight: .semibold),
-            titleMedium: TextStyle(size: 28, weight: .semibold),
-            titleSmall: TextStyle(size: 22, weight: .semibold),
-            // Headlines
-            headlineLarge: TextStyle(size: 20, weight: .semibold),
-            headlineMedium: TextStyle(size: 17, weight: .semibold),
-            headlineSmall: TextStyle(size: 15, weight: .semibold),
-            // Body
-            bodyLarge: TextStyle(size: 17, weight: .regular),
-            bodyMedium: TextStyle(size: 15, weight: .regular),
-            bodySmall: TextStyle(size: 13, weight: .regular),
-            // Caption
-            captionLarge: TextStyle(size: 12, weight: .regular),
-            captionSmall: TextStyle(size: 11, weight: .regular),
-            // Button
-            buttonLarge: TextStyle(size: 17, weight: .semibold),
-            buttonMedium: TextStyle(size: 15, weight: .semibold),
-            buttonSmall: TextStyle(size: 13, weight: .semibold)
+        let typography = TypographyScale(
+            titleLarge: TextStyle(size: 26, weight: .semibold, design: .monospaced),
+            titleMedium: TextStyle(size: 22, weight: .semibold, design: .monospaced),
+            titleSmall: TextStyle(size: 18, weight: .semibold, design: .monospaced),
+            headlineLarge: TextStyle(size: 17, weight: .semibold, design: .monospaced),
+            headlineMedium: TextStyle(size: 15, weight: .semibold, design: .monospaced),
+            headlineSmall: TextStyle(size: 13, weight: .semibold, design: .monospaced),
+            bodyLarge: TextStyle(size: 15, weight: .regular, design: .monospaced),
+            bodyMedium: TextStyle(size: 13, weight: .regular, design: .monospaced),
+            bodySmall: TextStyle(size: 12, weight: .regular, design: .monospaced),
+            captionLarge: TextStyle(size: 11, weight: .regular, design: .monospaced),
+            captionSmall: TextStyle(size: 10, weight: .regular, design: .monospaced),
+            buttonLarge: TextStyle(size: 14, weight: .semibold, design: .monospaced),
+            buttonMedium: TextStyle(size: 13, weight: .semibold, design: .monospaced),
+            buttonSmall: TextStyle(size: 12, weight: .semibold, design: .monospaced)
         )
 
-        self.spacing = SpacingScale(
+        let spacing = SpacingScale(
             xs: 4,
             sm: 8,
             smd: 12,
@@ -64,7 +52,38 @@ public struct DefaultTheme: Theme, Sendable {
             lg: 24,
             xl: 32,
             xxlg: 40,
-            xxl: 48
+            xxl: 52
+        )
+
+        let radii = RadiiScale(
+            xs: 8,
+            sm: 12,
+            md: 18,
+            lg: 24,
+            xl: 32,
+            pill: 999
+        )
+
+        let shadows = ShadowScale(
+            soft: ShadowToken(color: .black.opacity(0.05), radius: 8, y: 4),
+            card: ShadowToken(color: .black.opacity(0.08), radius: 16, y: 8),
+            lifted: ShadowToken(color: .black.opacity(0.14), radius: 22, y: 12)
+        )
+
+        let glass = GlassTokens(
+            tint: Color.white.opacity(0.12),
+            strongTint: Color.white.opacity(0.22),
+            border: Color.white.opacity(0.5),
+            shadow: ShadowToken(color: .black.opacity(0.12), radius: 12, y: 6)
+        )
+
+        self.tokens = DesignTokens(
+            colors: colors,
+            typography: typography,
+            spacing: spacing,
+            radii: radii,
+            shadows: shadows,
+            glass: glass
         )
     }
 }

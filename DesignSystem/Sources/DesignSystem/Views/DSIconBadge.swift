@@ -26,14 +26,19 @@ public struct DSIconBadge: View {
     }
 
     public var body: some View {
-        Image(systemName: systemName)
-            .font(font)
-            .foregroundStyle(foregroundColor)
-            .frame(width: size, height: size)
-            .background(
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(backgroundColor)
-            )
+        IconTileSurface(
+            size: size,
+            cornerRadius: cornerRadius,
+            fill: backgroundColor,
+            borderColor: .clear,
+            borderWidth: 0,
+            shadow: ShadowToken(color: .clear, radius: 0),
+            usesGlass: false
+        ) {
+            Image(systemName: systemName)
+                .font(font)
+                .foregroundStyle(foregroundColor)
+        }
     }
 }
 
