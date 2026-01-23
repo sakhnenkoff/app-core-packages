@@ -171,7 +171,7 @@ public enum AvatarSize {
 public extension Color {
     /// Base color for skeleton placeholders
     static var skeletonBase: Color {
-        Color(light: Color(hex: "E5E7EB"), dark: Color(hex: "374151"))
+        Color(light: .borderLight, dark: .borderDark)
     }
 }
 

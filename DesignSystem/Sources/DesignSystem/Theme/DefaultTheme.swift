@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The default theme matching current hardcoded values
+/// Default theme tuned for a minimal, Apple-like aesthetic
 public struct DefaultTheme: Theme, Sendable {
     public let colors: ColorPalette
     public let typography: TypographyScale
@@ -9,35 +9,35 @@ public struct DefaultTheme: Theme, Sendable {
     public init() {
         self.colors = ColorPalette(
             // Brand Colors (adaptive for dark mode)
-            primary: .adaptivePrimary,          // Yale Blue (light) / Sky Blue (dark)
-            secondary: .adaptiveSecondary,      // Oxford Navy (light) / Periwinkle (dark)
-            accent: .adaptiveAccent,            // Prussian Blue (light) / Steel Blue (dark)
+            primary: .adaptivePrimary,          // Near-black (light) / Soft white (dark)
+            secondary: .adaptiveSecondary,      // Charcoal (light) / Cool gray (dark)
+            accent: .adaptiveAccent,            // Dark accent (light) / Light accent (dark)
             // Semantic Colors (adaptive for dark mode)
-            success: .adaptiveSuccess,          // Sage Green (light) / Light Sage (dark)
-            warning: .adaptiveWarning,          // Goldenrod (light) / Light Gold (dark)
-            error: .adaptiveError,              // Coral Red (light) / Light Coral (dark)
-            info: .adaptiveInfo,                // Powder Blue (light) / Light Powder Blue (dark)
+            success: .adaptiveSuccess,          // Green (light) / Green (dark)
+            warning: .adaptiveWarning,          // Amber (light) / Amber (dark)
+            error: .adaptiveError,              // Red (light) / Red (dark)
+            info: .adaptiveInfo,                // Blue (light) / Blue (dark)
             // Background Colors
-            backgroundPrimary: Color(uiColor: .systemBackground),                  // Keep system adaptive
-            backgroundSecondary: Color(uiColor: .secondarySystemBackground),       // Keep system adaptive
-            backgroundTertiary: .adaptiveTertiaryBackground,                       // Mint Cream (light) / Pale Mint (dark)
+            backgroundPrimary: .adaptiveBackgroundPrimary,                         // Off-white (light) / Deep charcoal (dark)
+            backgroundSecondary: .adaptiveBackgroundSecondary,                     // White (light) / Dark surface (dark)
+            backgroundTertiary: .adaptiveTertiaryBackground,                       // Mist (light) / Tinted dark (dark)
             // Text Colors
-            textPrimary: Color(uiColor: .label),                                   // Keep system adaptive
-            textSecondary: Color(uiColor: .secondaryLabel),                        // Keep system adaptive
-            textTertiary: Color(uiColor: .tertiaryLabel),                          // Keep system adaptive
-            textOnPrimary: .white,                                                 // White for contrast on dark blues
+            textPrimary: .adaptiveTextPrimary,                                     // Near-black (light) / Off-white (dark)
+            textSecondary: .adaptiveTextSecondary,                                 // Muted gray (light) / Soft gray (dark)
+            textTertiary: .adaptiveTextTertiary,                                   // Light gray (light) / Muted gray (dark)
+            textOnPrimary: Color(light: .white, dark: .textPrimaryLight),           // Adaptive contrast on primary
             // Surface Colors
-            surface: Color(uiColor: .systemBackground),                            // Keep system adaptive
-            surfaceVariant: Color(uiColor: .secondarySystemBackground),            // Keep system adaptive
-            border: Color(uiColor: .separator),                                    // Keep system adaptive
-            divider: Color(uiColor: .opaqueSeparator)                              // Keep system adaptive
+            surface: .adaptiveSurface,                                             // White (light) / Dark surface (dark)
+            surfaceVariant: .adaptiveSurfaceVariant,                               // Tinted surface (light) / Deep surface (dark)
+            border: .adaptiveBorder,                                               // Subtle border
+            divider: .adaptiveDivider                                              // Divider color
         )
 
         self.typography = TypographyScale(
             // Titles
-            titleLarge: TextStyle(size: 34, weight: .bold),
-            titleMedium: TextStyle(size: 28, weight: .bold),
-            titleSmall: TextStyle(size: 22, weight: .bold),
+            titleLarge: TextStyle(size: 34, weight: .semibold),
+            titleMedium: TextStyle(size: 28, weight: .semibold),
+            titleSmall: TextStyle(size: 22, weight: .semibold),
             // Headlines
             headlineLarge: TextStyle(size: 20, weight: .semibold),
             headlineMedium: TextStyle(size: 17, weight: .semibold),

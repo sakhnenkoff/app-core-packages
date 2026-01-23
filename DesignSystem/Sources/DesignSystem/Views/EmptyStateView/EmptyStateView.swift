@@ -27,34 +27,27 @@ public struct EmptyStateView: View {
         VStack(spacing: DSSpacing.md) {
             if let icon {
                 Image(systemName: icon)
-                    .font(.system(size: 48, weight: .light))
+                    .font(.system(size: 44, weight: .light))
                     .foregroundStyle(Color.textTertiary)
             }
 
             VStack(spacing: DSSpacing.sm) {
                 Text(title)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.headlineMedium())
                     .foregroundStyle(Color.textPrimary)
                     .multilineTextAlignment(.center)
 
                 if let message {
                     Text(message)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.bodySmall())
                         .foregroundStyle(Color.textSecondary)
                         .multilineTextAlignment(.center)
                 }
             }
 
             if let actionTitle, let action {
-                Button(action: action) {
-                    Text(actionTitle)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, DSSpacing.lg)
-                        .padding(.vertical, DSSpacing.smd)
-                        .background(Color.themePrimary)
-                        .clipShape(RoundedRectangle(cornerRadius: DSSpacing.sm))
-                }
+                DSButton(title: actionTitle, size: .medium, action: action)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.top, DSSpacing.sm)
             }
         }

@@ -47,7 +47,7 @@ public enum ToastStyle: Sendable {
         case .error: return .adaptiveError
         case .warning: return .adaptiveWarning
         case .success: return .adaptiveSuccess
-        case .info: return .adaptivePrimary
+        case .info: return .adaptiveInfo
         }
     }
 
@@ -74,10 +74,10 @@ public struct ToastView: View {
         HStack(alignment: .center, spacing: DSSpacing.smd) {
             Image(systemName: toast.style.icon)
                 .foregroundStyle(.white)
-                .font(.system(size: 20, weight: .semibold))
+                .font(.headlineMedium())
 
             Text(toast.message)
-                .font(.system(size: 14, weight: .medium))
+                .font(.bodySmall())
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,7 +85,7 @@ public struct ToastView: View {
             Button(action: onDismiss) {
                 Image(systemName: "xmark")
                     .foregroundStyle(.white.opacity(0.8))
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.captionLarge())
             }
         }
         .padding(.horizontal, DSSpacing.md)

@@ -27,10 +27,12 @@ public struct DSTextField: View {
     }
 
     public var body: some View {
+        let shape = RoundedRectangle(cornerRadius: DSSpacing.smd, style: .continuous)
+
         HStack(spacing: DSSpacing.smd) {
             if let icon {
                 Image(systemName: icon)
-                    .font(.system(size: 18))
+                    .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(Color.textSecondary)
                     .frame(width: 24)
             }
@@ -44,10 +46,17 @@ public struct DSTextField: View {
                     .textInputAutocapitalization(autocapitalization)
             }
         }
-        .font(.system(size: 16))
-        .padding(DSSpacing.md)
-        .background(Color.backgroundSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: DSSpacing.smd))
+        .font(.bodyMedium())
+        .foregroundStyle(Color.textPrimary)
+        .tint(Color.themePrimary)
+        .padding(.horizontal, DSSpacing.md)
+        .padding(.vertical, DSSpacing.smd)
+        .frame(minHeight: 48)
+        .background(Color.surface)
+        .overlay(
+            shape.stroke(Color.border, lineWidth: 1)
+        )
+        .clipShape(shape)
     }
 }
 

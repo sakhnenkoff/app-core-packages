@@ -25,22 +25,27 @@ public struct DSChoiceButton: View {
 
     public var body: some View {
         Button(action: action) {
+            let shape = RoundedRectangle(cornerRadius: DSSpacing.smd, style: .continuous)
+            let borderColor = isSelected ? Color.textPrimary.opacity(0.6) : Color.border
+            let borderWidth: CGFloat = isSelected ? 1.5 : 1
+            let backgroundColor = isSelected ? Color.surfaceVariant : Color.surface
+
             HStack(spacing: DSSpacing.smd) {
                 if let icon {
                     Image(systemName: icon)
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(isSelected ? Color.themePrimary : Color.textSecondary)
+                        .foregroundStyle(isSelected ? Color.textPrimary : Color.textSecondary)
                         .frame(width: 24)
                 }
 
                 VStack(alignment: .leading, spacing: DSSpacing.xs) {
                     Text(title)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.headlineSmall())
                         .foregroundStyle(Color.textPrimary)
 
                     if let subtitle {
                         Text(subtitle)
-                            .font(.system(size: 13))
+                            .font(.bodySmall())
                             .foregroundStyle(Color.textSecondary)
                     }
                 }
@@ -49,15 +54,16 @@ public struct DSChoiceButton: View {
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 22))
-                    .foregroundStyle(isSelected ? Color.themePrimary : Color.textTertiary)
+                    .foregroundStyle(isSelected ? Color.textPrimary : Color.textTertiary)
             }
-            .padding(DSSpacing.md)
-            .background(isSelected ? Color.themePrimary.opacity(0.08) : Color.backgroundSecondary)
+            .padding(.horizontal, DSSpacing.md)
+            .padding(.vertical, DSSpacing.smd)
+            .frame(minHeight: 52)
+            .background(backgroundColor)
             .overlay(
-                RoundedRectangle(cornerRadius: DSSpacing.smd)
-                    .stroke(isSelected ? Color.themePrimary : Color.clear, lineWidth: 2)
+                shape.stroke(borderColor, lineWidth: borderWidth)
             )
-            .clipShape(RoundedRectangle(cornerRadius: DSSpacing.smd))
+            .clipShape(shape)
         }
         .buttonStyle(.plain)
     }

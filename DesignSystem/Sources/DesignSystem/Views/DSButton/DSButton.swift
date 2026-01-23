@@ -38,35 +38,56 @@ public struct DSButton: View {
                 action()
             }
         }) {
-            HStack(spacing: DSSpacing.sm) {
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .tint(style.foregroundColor)
-                        .scaleEffect(0.8)
-                } else {
-                    if let icon {
-                        Image(systemName: icon)
-                            .font(.system(size: size.iconSize, weight: .semibold))
-                    }
+            buttonLabel
+        }
+        .disabled(!isEnabled || isLoading)
+        .opacity(isEnabled ? 1.0 : 0.5)
+    }
 
-                    Text(title)
-                        .font(.system(size: size.fontSize, weight: .semibold))
+    @ViewBuilder
+    private var buttonLabel: some View {
+        let shape = RoundedRectangle(cornerRadius: size.cornerRadius)
+
+        let content = HStack(spacing: DSSpacing.sm) {
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .tint(style.foregroundColor)
+                    .scaleEffect(0.8)
+            } else {
+                if let icon {
+                    Image(systemName: icon)
+                        .font(.system(size: size.iconSize, weight: .semibold))
                 }
+
+                Text(title)
+                    .font(size.font)
             }
+        }
             .foregroundStyle(style.foregroundColor)
             .padding(.horizontal, size.horizontalPadding)
             .padding(.vertical, size.verticalPadding)
             .frame(maxWidth: isFullWidth ? .infinity : nil)
-            .background(style.backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius))
-            .overlay(
-                RoundedRectangle(cornerRadius: size.cornerRadius)
-                    .strokeBorder(style.borderColor, lineWidth: style.borderWidth)
-            )
+            .frame(minHeight: size.height)
+
+        if #available(iOS 26.0, *), style.usesGlass {
+            content
+                .glassEffect(
+                    .regular.tint(style.glassTint).interactive(),
+                    in: .rect(cornerRadius: size.cornerRadius)
+                )
+                .overlay(
+                    shape.strokeBorder(style.borderColor, lineWidth: style.borderWidth)
+                )
+                .shadow(color: style.glowColor, radius: style.glowRadius, x: 0, y: style.glowYOffset)
+        } else {
+            content
+                .background(shape.fill(style.backgroundStyle))
+                .overlay(
+                    shape.strokeBorder(style.borderColor, lineWidth: style.borderWidth)
+                )
+                .shadow(color: style.glowColor, radius: style.glowRadius, x: 0, y: style.glowYOffset)
         }
-        .disabled(!isEnabled || isLoading)
-        .opacity(isEnabled ? 1.0 : 0.5)
     }
 }
 
@@ -90,24 +111,24 @@ public enum DSButtonStyle {
         case .primary:
             return .themePrimary
         case .secondary:
-            return .clear
+            return .surface
         case .tertiary:
             return .clear
         case .destructive:
-            return .adaptiveError
+            return .error
         }
     }
 
     var foregroundColor: Color {
         switch self {
         case .primary:
-            return .white
+            return .textOnPrimary
         case .secondary:
-            return .themePrimary
+            return .textPrimary
         case .tertiary:
-            return .themePrimary
+            return .textSecondary
         case .destructive:
-            return .white
+            return .textOnPrimary
         }
     }
 
@@ -116,7 +137,7 @@ public enum DSButtonStyle {
         case .primary:
             return .clear
         case .secondary:
-            return .themePrimary
+            return .border
         case .tertiary:
             return .clear
         case .destructive:
@@ -126,10 +147,69 @@ public enum DSButtonStyle {
 
     var borderWidth: CGFloat {
         switch self {
+        case .primary, .destructive:
+            return 0
         case .secondary:
-            return 1.5
+            return 1
         default:
             return 0
+        }
+    }
+
+    var backgroundStyle: AnyShapeStyle {
+        switch self {
+        case .primary:
+            return AnyShapeStyle(Color.themePrimary)
+        case .secondary:
+            return AnyShapeStyle(Color.surface)
+        case .tertiary:
+            return AnyShapeStyle(Color.clear)
+        case .destructive:
+            return AnyShapeStyle(Color.error)
+        }
+    }
+
+    var glowColor: Color {
+        switch self {
+        case .primary:
+            return Color.black.opacity(0.06)
+        case .destructive:
+            return Color.black.opacity(0.08)
+        default:
+            return Color.clear
+        }
+    }
+
+    var glowRadius: CGFloat {
+        switch self {
+        case .primary, .destructive:
+            return 4
+        default:
+            return 0
+        }
+    }
+
+    var glowYOffset: CGFloat {
+        switch self {
+        case .primary, .destructive:
+            return 2
+        default:
+            return 0
+        }
+    }
+
+    var usesGlass: Bool {
+        false
+    }
+
+    var glassTint: Color {
+        switch self {
+        case .secondary:
+            return Color.textPrimary.opacity(0.04)
+        case .tertiary:
+            return Color.textPrimary.opacity(0.02)
+        default:
+            return .clear
         }
     }
 }
@@ -180,6 +260,28 @@ public enum DSButtonSize {
         case .large: return DSSpacing.md
         }
     }
+
+    var font: Font {
+        switch self {
+        case .small:
+            return .buttonSmall()
+        case .medium:
+            return .buttonMedium()
+        case .large:
+            return .buttonLarge()
+        }
+    }
+
+    var height: CGFloat {
+        switch self {
+        case .small:
+            return 40
+        case .medium:
+            return 48
+        case .large:
+            return 56
+        }
+    }
 }
 
 // MARK: - Convenience Initializers
@@ -197,7 +299,7 @@ public extension DSButton {
             title: title,
             icon: icon,
             style: .primary,
-            size: .large,
+            size: .medium,
             isLoading: isLoading,
             isEnabled: isEnabled,
             isFullWidth: true,
@@ -263,12 +365,16 @@ public struct DSIconButton: View {
                 .font(.system(size: size.iconSize, weight: .semibold))
                 .foregroundStyle(style.foregroundColor)
                 .frame(width: size.dimension, height: size.dimension)
-                .background(style.backgroundColor)
+                .background(
+                    Circle()
+                        .fill(style.backgroundStyle)
+                )
                 .clipShape(Circle())
                 .overlay(
                     Circle()
                         .strokeBorder(style.borderColor, lineWidth: style.borderWidth)
                 )
+                .shadow(color: style.glowColor, radius: style.glowRadius, x: 0, y: style.glowYOffset)
         }
     }
 }

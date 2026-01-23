@@ -21,7 +21,7 @@ public struct LoadingView: View {
 
             if let message = message {
                 Text(message)
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.bodySmall())
                     .foregroundColor(.textSecondary)
                     .multilineTextAlignment(.center)
             }

@@ -1,104 +1,196 @@
 import SwiftUI
 
-/// Academic color palette with sophisticated blues and complementary colors
+/// Minimal neutral palette with an Apple-like feel
 public extension Color {
 
     // MARK: - Light Mode Brand Colors
 
-    /// Yale Blue - Deep and striking, radiates academic prestige
-    static let yaleBlue = Color(hex: "134074")
+    /// Primary brand (near black)
+    static let yaleBlue = Color(hex: "111111")
 
-    /// Oxford Navy - Deep, dignified blue reminiscent of midnight sky
-    static let oxfordNavy = Color(hex: "13315C")
+    /// Secondary brand (deep charcoal)
+    static let oxfordNavy = Color(hex: "1F2937")
 
-    /// Prussian Blue - Inky, profound blue filled with gravitas
-    static let prussianBlue = Color(hex: "0B2545")
+    /// Brand accent (charcoal)
+    static let prussianBlue = Color(hex: "2B2B2B")
 
-    /// Powder Blue - Soft, comforting blue gently wraps settings
-    static let powderBlue = Color(hex: "8DA9C4")
+    /// Info (blue)
+    static let powderBlue = Color(hex: "2563EB")
 
-    /// Mint Cream - Cool and pristine shade like first light on snow
-    static let mintCream = Color(hex: "EEF4ED")
+    /// Tertiary background (soft mist)
+    static let mintCream = Color(hex: "F2F2F4")
+
+    /// Neutral surface background
+    static let cloudWhite = Color(hex: "FFFFFF")
+
+    /// Off-white primary background
+    static let canvasWhite = Color(hex: "F7F7F7")
+
+    /// Subtle surface tint
+    static let surfaceTint = Color(hex: "F2F3F5")
+
+    /// Soft border
+    static let borderLight = Color(hex: "E5E7EB")
+
+    /// Divider gray
+    static let dividerLight = Color(hex: "E2E4E8")
+
+    /// Primary text
+    static let textPrimaryLight = Color(hex: "111111")
+
+    /// Secondary text
+    static let textSecondaryLight = Color(hex: "6B7280")
+
+    /// Tertiary text
+    static let textTertiaryLight = Color(hex: "9CA3AF")
+
+    /// Success green
+    static let sageGreen = Color(hex: "16A34A")
+
+    /// Warning amber
+    static let goldenrod = Color(hex: "F59E0B")
+
+    /// Error red
+    static let coralRed = Color(hex: "EF4444")
 
     // MARK: - Dark Mode Brand Colors (Lighter Variants)
 
-    /// Sky Blue - Lightened Yale Blue for dark backgrounds
-    static let skyBlue = Color(hex: "5B9BD5")
+    /// Primary for dark mode
+    static let skyBlue = Color(hex: "EDEDED")
 
-    /// Periwinkle - Lightened Oxford Navy for dark backgrounds
-    static let periwinkle = Color(hex: "6C7B95")
+    /// Secondary for dark mode
+    static let periwinkle = Color(hex: "C4CAD3")
 
-    /// Steel Blue - Lightened Prussian Blue for dark backgrounds
-    static let steelBlue = Color(hex: "4682B4")
+    /// Accent for dark mode
+    static let steelBlue = Color(hex: "DADADA")
 
-    /// Light Powder Blue - Lightened Powder Blue for dark mode
-    static let lightPowderBlue = Color(hex: "B4C7DC")
+    /// Info for dark mode
+    static let lightPowderBlue = Color(hex: "60A5FA")
 
-    /// Pale Mint - Lightened Mint Cream for dark mode
-    static let paleMint = Color(hex: "C8E6C9")
+    /// Tertiary background for dark mode
+    static let paleMint = Color(hex: "141419")
 
-    // MARK: - Complementary Semantic Colors (Light Mode)
+    /// Dark primary background
+    static let midnight = Color(hex: "0B0C0E")
 
-    /// Sage Green - Fresh success color that complements cool blues
-    static let sageGreen = Color(hex: "88B04B")
+    /// Dark secondary background
+    static let midnightSecondary = Color(hex: "111317")
 
-    /// Goldenrod - Warm warning color that pairs with navy
-    static let goldenrod = Color(hex: "DAA520")
+    /// Dark surface
+    static let surfaceDark = Color(hex: "121418")
 
-    /// Coral Red - Urgent but refined error color
-    static let coralRed = Color(hex: "E74C3C")
+    /// Dark surface variant
+    static let surfaceVariantDark = Color(hex: "1A1C21")
 
-    // MARK: - Complementary Semantic Colors (Dark Mode)
+    /// Dark border
+    static let borderDark = Color(hex: "242730")
 
-    /// Light Sage - Lighter success color for dark mode
-    static let lightSage = Color(hex: "A8D08D")
+    /// Dark divider
+    static let dividerDark = Color(hex: "1E2128")
 
-    /// Light Gold - Brighter warning color for dark mode
-    static let lightGold = Color(hex: "FFD54F")
+    /// Primary text (dark)
+    static let textPrimaryDark = Color(hex: "F5F5F7")
 
-    /// Light Coral - Vibrant error color for dark mode
-    static let lightCoral = Color(hex: "FF6B6B")
+    /// Secondary text (dark)
+    static let textSecondaryDark = Color(hex: "C7CBD1")
+
+    /// Tertiary text (dark)
+    static let textTertiaryDark = Color(hex: "8A9099")
+
+    /// Success green (dark)
+    static let lightSage = Color(hex: "4ADE80")
+
+    /// Warning amber (dark)
+    static let lightGold = Color(hex: "FBBF24")
+
+    /// Error red (dark)
+    static let lightCoral = Color(hex: "F87171")
 
     // MARK: - Adaptive Colors (Auto-switch based on color scheme)
 
-    /// Adaptive primary color - Yale Blue (light) / Sky Blue (dark)
+    /// Adaptive primary color - mint (light) / bright mint (dark)
     public static var adaptivePrimary: Color {
         Color(light: .yaleBlue, dark: .skyBlue)
     }
 
-    /// Adaptive secondary color - Oxford Navy (light) / Periwinkle (dark)
+    /// Adaptive secondary color - ink (light) / soft slate (dark)
     public static var adaptiveSecondary: Color {
         Color(light: .oxfordNavy, dark: .periwinkle)
     }
 
-    /// Adaptive accent color - Prussian Blue (light) / Steel Blue (dark)
+    /// Adaptive accent color - teal (light) / mint (dark)
     public static var adaptiveAccent: Color {
         Color(light: .prussianBlue, dark: .steelBlue)
     }
 
-    /// Adaptive info color - Powder Blue (light) / Light Powder Blue (dark)
+    /// Adaptive info color - sky (light) / sky (dark)
     public static var adaptiveInfo: Color {
         Color(light: .powderBlue, dark: .lightPowderBlue)
     }
 
-    /// Adaptive success color - Sage Green (light) / Light Sage (dark)
+    /// Adaptive success color - green (light) / green (dark)
     public static var adaptiveSuccess: Color {
         Color(light: .sageGreen, dark: .lightSage)
     }
 
-    /// Adaptive warning color - Goldenrod (light) / Light Gold (dark)
+    /// Adaptive warning color - amber (light) / amber (dark)
     public static var adaptiveWarning: Color {
         Color(light: .goldenrod, dark: .lightGold)
     }
 
-    /// Adaptive error color - Coral Red (light) / Light Coral (dark)
+    /// Adaptive error color - red (light) / red (dark)
     public static var adaptiveError: Color {
         Color(light: .coralRed, dark: .lightCoral)
     }
 
-    /// Adaptive tertiary background - Mint Cream (light) / Pale Mint (dark)
+    /// Adaptive primary background - off-white (light) / midnight (dark)
+    public static var adaptiveBackgroundPrimary: Color {
+        Color(light: .canvasWhite, dark: .midnight)
+    }
+
+    /// Adaptive secondary background - white (light) / midnight secondary (dark)
+    public static var adaptiveBackgroundSecondary: Color {
+        Color(light: .cloudWhite, dark: .midnightSecondary)
+    }
+
+    /// Adaptive tertiary background - mist (light) / deep slate (dark)
     public static var adaptiveTertiaryBackground: Color {
         Color(light: .mintCream, dark: .paleMint)
+    }
+
+    /// Adaptive surface - white (light) / dark surface (dark)
+    public static var adaptiveSurface: Color {
+        Color(light: .cloudWhite, dark: .surfaceDark)
+    }
+
+    /// Adaptive surface variant - tinted surface (light) / deep surface (dark)
+    public static var adaptiveSurfaceVariant: Color {
+        Color(light: .surfaceTint, dark: .surfaceVariantDark)
+    }
+
+    /// Adaptive border color
+    public static var adaptiveBorder: Color {
+        Color(light: .borderLight, dark: .borderDark)
+    }
+
+    /// Adaptive divider color
+    public static var adaptiveDivider: Color {
+        Color(light: .dividerLight, dark: .dividerDark)
+    }
+
+    /// Adaptive primary text color
+    public static var adaptiveTextPrimary: Color {
+        Color(light: .textPrimaryLight, dark: .textPrimaryDark)
+    }
+
+    /// Adaptive secondary text color
+    public static var adaptiveTextSecondary: Color {
+        Color(light: .textSecondaryLight, dark: .textSecondaryDark)
+    }
+
+    /// Adaptive tertiary text color
+    public static var adaptiveTextTertiary: Color {
+        Color(light: .textTertiaryLight, dark: .textTertiaryDark)
     }
 }
 

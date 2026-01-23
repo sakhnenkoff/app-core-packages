@@ -49,18 +49,18 @@ public struct ErrorStateView: View {
     public var body: some View {
         VStack(spacing: DSSpacing.md) {
             Image(systemName: icon)
-                .font(.system(size: 48, weight: .light))
+                .font(.system(size: 44, weight: .light))
                 .foregroundStyle(Color.error)
 
             VStack(spacing: DSSpacing.sm) {
                 Text(title)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.headlineMedium())
                     .foregroundStyle(Color.textPrimary)
                     .multilineTextAlignment(.center)
 
                 if let message {
                     Text(message)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.bodySmall())
                         .foregroundStyle(Color.textSecondary)
                         .multilineTextAlignment(.center)
                 }
@@ -68,23 +68,23 @@ public struct ErrorStateView: View {
 
             VStack(spacing: DSSpacing.sm) {
                 if let retryTitle, let onRetry {
-                    Button(action: onRetry) {
-                        Text(retryTitle)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, DSSpacing.smd)
-                            .background(Color.adaptiveError)
-                            .clipShape(RoundedRectangle(cornerRadius: DSSpacing.sm))
-                    }
+                    DSButton(
+                        title: retryTitle,
+                        style: .primary,
+                        size: .medium,
+                        isFullWidth: true,
+                        action: onRetry
+                    )
                 }
 
                 if let dismissTitle, let onDismiss {
-                    Button(action: onDismiss) {
-                        Text(dismissTitle)
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundStyle(Color.textSecondary)
-                    }
+                    DSButton(
+                        title: dismissTitle,
+                        style: .tertiary,
+                        size: .medium,
+                        isFullWidth: true,
+                        action: onDismiss
+                    )
                 }
             }
             .padding(.top, DSSpacing.sm)
