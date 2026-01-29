@@ -77,13 +77,27 @@ public struct DefaultTheme: Theme, Sendable {
             shadow: ShadowToken(color: .black.opacity(0.12), radius: 12, y: 6)
         )
 
+        let layout = LayoutScale(
+            cardMaxWidth: 360,
+            cardCompactWidth: 340,
+            textMaxWidth: 260,
+            mediaHeight: 160,
+            avatarLarge: 68,
+            avatarSmall: 44,
+            iconSmall: 20,
+            iconMedium: 22,
+            iconLarge: 28,
+            listRowMinHeight: 52
+        )
+
         self.tokens = DesignTokens(
             colors: colors,
             typography: typography,
             spacing: spacing,
             radii: radii,
             shadows: shadows,
-            glass: glass
+            glass: glass,
+            layout: layout
         )
     }
 }

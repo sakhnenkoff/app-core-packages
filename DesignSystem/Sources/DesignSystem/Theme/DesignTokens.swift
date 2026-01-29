@@ -7,6 +7,7 @@ public struct DesignTokens: Sendable {
     public let radii: RadiiScale
     public let shadows: ShadowScale
     public let glass: GlassTokens
+    public let layout: LayoutScale
 
     public init(
         colors: ColorPalette,
@@ -14,7 +15,8 @@ public struct DesignTokens: Sendable {
         spacing: SpacingScale,
         radii: RadiiScale,
         shadows: ShadowScale,
-        glass: GlassTokens
+        glass: GlassTokens,
+        layout: LayoutScale = LayoutScale()
     ) {
         self.colors = colors
         self.typography = typography
@@ -22,6 +24,7 @@ public struct DesignTokens: Sendable {
         self.radii = radii
         self.shadows = shadows
         self.glass = glass
+        self.layout = layout
     }
 }
 

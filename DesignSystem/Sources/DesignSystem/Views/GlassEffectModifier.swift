@@ -6,8 +6,8 @@ public struct GlassEffectModifier: ViewModifier {
     let isInteractive: Bool
 
     public init(
-        cornerRadius: CGFloat = 16,
-        tint: Color? = nil,
+        cornerRadius: CGFloat = DSRadii.lg,
+        tint: Color? = DesignSystem.tokens.glass.tint,
         isInteractive: Bool = false
     ) {
         self.cornerRadius = cornerRadius
@@ -32,8 +32,8 @@ public struct GlassEffectModifier: ViewModifier {
 
 public extension View {
     func glassBackground(
-        cornerRadius: CGFloat = 16,
-        tint: Color? = nil,
+        cornerRadius: CGFloat = DSRadii.lg,
+        tint: Color? = DesignSystem.tokens.glass.tint,
         isInteractive: Bool = false
     ) -> some View {
         modifier(GlassEffectModifier(cornerRadius: cornerRadius, tint: tint, isInteractive: isInteractive))

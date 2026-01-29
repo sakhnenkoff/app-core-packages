@@ -51,6 +51,7 @@ public struct ErrorStateView: View {
             Image(systemName: icon)
                 .font(.system(size: 44, weight: .light))
                 .foregroundStyle(Color.error)
+                .accessibilityHidden(true)
 
             VStack(spacing: DSSpacing.sm) {
                 Text(title)

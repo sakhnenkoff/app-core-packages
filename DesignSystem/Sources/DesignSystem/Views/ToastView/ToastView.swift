@@ -75,6 +75,7 @@ public struct ToastView: View {
             Image(systemName: toast.style.icon)
                 .foregroundStyle(toast.style.backgroundColor)
                 .font(.system(size: 18, weight: .medium))
+                .accessibilityHidden(true)
 
             Text(toast.message)
                 .font(.bodySmall())
@@ -87,6 +88,7 @@ public struct ToastView: View {
                     .foregroundStyle(Color.textTertiary)
                     .font(.system(size: 12, weight: .medium))
             }
+            .accessibilityLabel(Text(String(localized: "Dismiss", bundle: .module)))
         }
         .padding(.horizontal, DSSpacing.md)
         .padding(.vertical, DSSpacing.md)

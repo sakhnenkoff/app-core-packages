@@ -7,6 +7,7 @@ public struct IconTileButton: View {
     let tint: Color
     let backgroundTint: Color
     let usesGlass: Bool
+    let accessibilityLabel: String?
     let action: (() -> Void)?
 
     public init(
@@ -16,6 +17,7 @@ public struct IconTileButton: View {
         tint: Color = Color.themePrimary,
         backgroundTint: Color = Color.surfaceVariant.opacity(0.8),
         usesGlass: Bool = false,
+        accessibilityLabel: String? = nil,
         action: (() -> Void)? = nil
     ) {
         self.systemName = systemName
@@ -24,6 +26,7 @@ public struct IconTileButton: View {
         self.tint = tint
         self.backgroundTint = backgroundTint
         self.usesGlass = usesGlass
+        self.accessibilityLabel = accessibilityLabel
         self.action = action
     }
 
@@ -45,8 +48,10 @@ public struct IconTileButton: View {
                 content
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(Text(accessibilityLabel ?? systemName))
         } else {
             content
+                .accessibilityHidden(true)
         }
     }
 }

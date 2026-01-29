@@ -30,6 +30,10 @@ struct ToastViewModifier: ViewModifier {
                     scheduleAutoDismiss(duration: newToast.duration)
                 }
             }
+            .onDisappear {
+                workItem?.cancel()
+                workItem = nil
+            }
     }
 
     private func scheduleAutoDismiss(duration: Double) {

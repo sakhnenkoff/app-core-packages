@@ -367,6 +367,7 @@ public struct DSIconButton: View {
     let style: DSButtonStyle
     let size: DSIconButtonSize
     let usesGlass: Bool
+    let accessibilityLabel: String?
     let action: (() -> Void)?
 
     public init(
@@ -374,12 +375,14 @@ public struct DSIconButton: View {
         style: DSButtonStyle = .tertiary,
         size: DSIconButtonSize = .medium,
         usesGlass: Bool = false,
+        accessibilityLabel: String? = nil,
         action: (() -> Void)? = nil
     ) {
         self.icon = icon
         self.style = style
         self.size = size
         self.usesGlass = usesGlass
+        self.accessibilityLabel = accessibilityLabel
         self.action = action
     }
 
@@ -391,8 +394,10 @@ public struct DSIconButton: View {
                 content
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(Text(accessibilityLabel ?? icon))
         } else {
             content
+                .accessibilityHidden(true)
         }
     }
 

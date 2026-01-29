@@ -12,4 +12,5 @@ public extension Theme {
     var radii: RadiiScale { tokens.radii }
     var shadows: ShadowScale { tokens.shadows }
     var glass: GlassTokens { tokens.glass }
+    var layout: LayoutScale { tokens.layout }
 }

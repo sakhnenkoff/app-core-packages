@@ -31,6 +31,11 @@ public enum DesignSystem {
         _theme.spacing
     }
 
+    /// Convenience accessor for layout
+    public static var layout: LayoutScale {
+        _theme.layout
+    }
+
     /// Convenience accessor for tokens
     public static var tokens: DesignTokens {
         _theme.tokens

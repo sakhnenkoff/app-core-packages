@@ -17,7 +17,7 @@ public struct DSListRow<Trailing: View>: View {
         leadingIcon: String? = nil,
         leadingTint: Color = Color.themePrimary,
         titleColor: Color = Color.themePrimary,
-        minHeight: CGFloat = 52,
+        minHeight: CGFloat = DSLayout.listRowMinHeight,
         action: (() -> Void)? = nil
     ) where Trailing == EmptyView {
         self.title = title
@@ -36,7 +36,7 @@ public struct DSListRow<Trailing: View>: View {
         leadingIcon: String? = nil,
         leadingTint: Color = Color.themePrimary,
         titleColor: Color = Color.themePrimary,
-        minHeight: CGFloat = 52,
+        minHeight: CGFloat = DSLayout.listRowMinHeight,
         action: (() -> Void)? = nil,
         @ViewBuilder trailing: () -> Trailing
     ) {
@@ -53,7 +53,7 @@ public struct DSListRow<Trailing: View>: View {
     public var body: some View {
         let rowContent = HStack(spacing: DSSpacing.smd) {
             if let leadingIcon {
-                SketchIcon(systemName: leadingIcon, size: 18, color: leadingTint)
+                SketchIcon(systemName: leadingIcon, size: DSLayout.iconSmall, color: leadingTint)
             }
 
             VStack(alignment: .leading, spacing: DSSpacing.xs) {

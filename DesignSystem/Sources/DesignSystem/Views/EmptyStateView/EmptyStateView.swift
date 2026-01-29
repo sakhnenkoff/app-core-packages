@@ -29,6 +29,7 @@ public struct EmptyStateView: View {
                 Image(systemName: icon)
                     .font(.system(size: 44, weight: .light))
                     .foregroundStyle(Color.textTertiary)
+                    .accessibilityHidden(true)
             }
 
             VStack(spacing: DSSpacing.sm) {

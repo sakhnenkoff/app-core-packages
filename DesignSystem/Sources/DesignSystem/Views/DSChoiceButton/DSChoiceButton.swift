@@ -54,7 +54,7 @@ public struct DSChoiceButton: View {
             }
             .padding(.horizontal, DSSpacing.md)
             .padding(.vertical, DSSpacing.smd)
-            .frame(minHeight: 52)
+            .frame(minHeight: DSLayout.listRowMinHeight)
             .background(isSelected ? Color.themePrimary.opacity(0.08) : Color.surface)
             .overlay(
                 shape.stroke(
@@ -65,6 +65,7 @@ public struct DSChoiceButton: View {
             .clipShape(shape)
         }
         .buttonStyle(.plain)
+        .accessibilityValue(Text(String(localized: isSelected ? "Selected" : "Not selected", bundle: .module)))
         .sensoryFeedback(.selection, trigger: tapCount)
         .animation(.easeInOut(duration: 0.2), value: isSelected)
     }

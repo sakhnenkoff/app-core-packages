@@ -5,6 +5,7 @@ import SwiftUI
 public struct SkeletonView: View {
     let style: SkeletonStyle
     @State private var isAnimating = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(style: SkeletonStyle = .rectangle(height: 20)) {
         self.style = style
@@ -14,12 +15,19 @@ public struct SkeletonView: View {
         skeletonShape
             .overlay(shimmerOverlay)
             .clipShape(style.clipShape)
+            .accessibilityHidden(true)
             .onAppear {
+                guard !reduceMotion else { return }
                 withAnimation(
                     .linear(duration: 1.5)
                     .repeatForever(autoreverses: false)
                 ) {
                     isAnimating = true
+                }
+            }
+            .onChange(of: reduceMotion) { _, newValue in
+                if newValue {
+                    isAnimating = false
                 }
             }
     }
@@ -104,19 +112,24 @@ public struct SkeletonView: View {
         }
     }
 
+    @ViewBuilder
     private var shimmerOverlay: some View {
-        GeometryReader { geometry in
-            LinearGradient(
-                colors: [
-                    Color.clear,
-                    Color.white.opacity(0.4),
-                    Color.clear
-                ],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-            .frame(width: geometry.size.width * 0.6)
-            .offset(x: isAnimating ? geometry.size.width : -geometry.size.width * 0.6)
+        if reduceMotion {
+            Color.clear
+        } else {
+            GeometryReader { geometry in
+                LinearGradient(
+                    colors: [
+                        Color.clear,
+                        Color.white.opacity(0.4),
+                        Color.clear
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+                .frame(width: geometry.size.width * 0.6)
+                .offset(x: isAnimating ? geometry.size.width : -geometry.size.width * 0.6)
+            }
         }
     }
 }
@@ -212,33 +225,39 @@ public extension View {
 
 struct ShimmerModifier: ViewModifier {
     @State private var isAnimating = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
-        content
-            .overlay(
-                GeometryReader { geometry in
-                    LinearGradient(
-                        colors: [
-                            Color.clear,
-                            Color.white.opacity(0.3),
-                            Color.clear
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                    .frame(width: geometry.size.width * 0.6)
-                    .offset(x: isAnimating ? geometry.size.width : -geometry.size.width * 0.6)
+        if reduceMotion {
+            content
+        } else {
+            content
+                .overlay(
+                    GeometryReader { geometry in
+                        LinearGradient(
+                            colors: [
+                                Color.clear,
+                                Color.white.opacity(0.3),
+                                Color.clear
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .frame(width: geometry.size.width * 0.6)
+                        .offset(x: isAnimating ? geometry.size.width : -geometry.size.width * 0.6)
+                    }
+                    .mask(content)
+                )
+                .onAppear {
+                    guard !reduceMotion else { return }
+                    withAnimation(
+                        .linear(duration: 1.5)
+                        .repeatForever(autoreverses: false)
+                    ) {
+                        isAnimating = true
+                    }
                 }
-                .mask(content)
-            )
-            .onAppear {
-                withAnimation(
-                    .linear(duration: 1.5)
-                    .repeatForever(autoreverses: false)
-                ) {
-                    isAnimating = true
-                }
-            }
+        }
     }
 }
 
