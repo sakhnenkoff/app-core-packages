@@ -21,7 +21,7 @@ public struct DSSectionHeader: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: subtitle == nil ? 0 : DSSpacing.xs) {
             Text(title)
-                .font(.headlineMedium())
+                .font(.titleSmall())
                 .foregroundStyle(titleColor)
 
             if let subtitle {
