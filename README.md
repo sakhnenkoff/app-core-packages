@@ -1,6 +1,9 @@
-# App Core Packages
+# Essentia Core Packages
 
-Shared Swift packages for iOS apps. This repo exposes a single multi-product Swift package that groups the core modules.
+## About
+
+Essentia Core Packages is a focused Swift package suite that groups the core building blocks—Domain, Data, Networking, Local Persistence, and Design System—so you can share the same foundations across apps without app-specific code.
+
 
 ## Packages
 
@@ -21,7 +24,7 @@ Package.swift example:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/sakhnenkoff/app-core-packages.git", from: "1.0.0")
+    .package(url: "https://github.com/sakhnenkoff/essentia-core-packages.git", from: "1.0.0")
 ]
 ```
 
@@ -31,11 +34,11 @@ Add products to targets:
 .target(
     name: "MyApp",
     dependencies: [
-        .product(name: "Domain", package: "app-core-packages"),
-        .product(name: "Data", package: "app-core-packages"),
-        .product(name: "Networking", package: "app-core-packages"),
-        .product(name: "LocalPersistance", package: "app-core-packages"),
-        .product(name: "DesignSystem", package: "app-core-packages")
+        .product(name: "Domain", package: "essentia-core-packages"),
+        .product(name: "Data", package: "essentia-core-packages"),
+        .product(name: "Networking", package: "essentia-core-packages"),
+        .product(name: "LocalPersistance", package: "essentia-core-packages"),
+        .product(name: "DesignSystem", package: "essentia-core-packages")
     ]
 )
 ```
