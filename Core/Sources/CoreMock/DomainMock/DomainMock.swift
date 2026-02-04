@@ -1,5 +1,5 @@
-// LocalPersistanceMock Package
+// DomainMock Package
 // Contains: Mock implementations for testing and previews
 
 import Foundation
-import LocalPersistance
+import Core

@@ -1,7 +1,7 @@
 import XCTest
-@testable import Data
+@testable import Core
 
-final class DataTests: XCTestCase {
+final class DomainTests: XCTestCase {
     func testExample() throws {
         XCTAssertTrue(true)
     }

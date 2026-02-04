@@ -1,6 +1,6 @@
 import XCTest
-@testable import LocalPersistance
-@testable import LocalPersistanceMock
+@testable import Core
+@testable import CoreMock
 
 final class LocalPersistanceTests: XCTestCase {
     func testUserDefaultsCacheService_saveAndFetch() throws {

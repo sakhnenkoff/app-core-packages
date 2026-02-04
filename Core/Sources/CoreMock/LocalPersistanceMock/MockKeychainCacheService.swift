@@ -1,5 +1,5 @@
 import Foundation
-import LocalPersistance
+import Core
 
 public final class MockKeychainCacheService: KeychainCacheServiceProtocol, @unchecked Sendable {
     private var stringStorage: [String: String] = [:]

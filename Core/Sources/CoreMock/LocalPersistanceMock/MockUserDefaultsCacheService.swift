@@ -1,5 +1,5 @@
 import Foundation
-import LocalPersistance
+import Core
 
 public final class MockUserDefaultsCacheService: UserDefaultsCacheServiceProtocol, @unchecked Sendable {
     private var storage: [String: Data] = [:]

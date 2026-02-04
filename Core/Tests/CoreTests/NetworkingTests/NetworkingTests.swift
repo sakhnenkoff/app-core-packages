@@ -1,5 +1,5 @@
 import XCTest
-@testable import Networking
+@testable import Core
 
 final class NetworkingTests: XCTestCase {
     func testAPIErrorEquality() throws {

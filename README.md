@@ -2,15 +2,13 @@
 
 ## About
 
-Essentia Core Packages is a focused Swift package suite that groups the core building blocks—Domain, Data, Networking, Local Persistence, and Design System—so you can share the same foundations across apps without app-specific code.
+Essentia Core Packages is a focused Swift package suite that bundles a single Core module (Domain, Data, Networking, Local Persistence) plus DesignSystem, so you can ship fast without wiring multiple targets.
 
 
 ## Packages
 
-- Domain: Entities and repository protocols
-- Data: Repository implementations (depends on Domain + Networking)
-- Networking: API request/response handling
-- LocalPersistance: Keychain and UserDefaults caching
+- Core: Domain + Data + Networking + Local Persistence in one module
+- CoreMock: Mocks for Core (testing and previews)
 - DesignSystem: UI components, colors, typography, resources
 
 ## Requirements
@@ -34,10 +32,8 @@ Add products to targets:
 .target(
     name: "MyApp",
     dependencies: [
-        .product(name: "Domain", package: "essentia-core-packages"),
-        .product(name: "Data", package: "essentia-core-packages"),
-        .product(name: "Networking", package: "essentia-core-packages"),
-        .product(name: "LocalPersistance", package: "essentia-core-packages"),
+        .product(name: "Core", package: "essentia-core-packages"),
+        .product(name: "CoreMock", package: "essentia-core-packages"),
         .product(name: "DesignSystem", package: "essentia-core-packages")
     ]
 )
