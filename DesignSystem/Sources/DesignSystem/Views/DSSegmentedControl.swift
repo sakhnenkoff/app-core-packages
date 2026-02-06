@@ -24,27 +24,35 @@ public struct DSSegmentedControl<T: Hashable>: View {
     }
 
     public var body: some View {
-        let shape = RoundedRectangle(cornerRadius: DSRadii.md, style: .continuous)
+        let padding = DSSpacing.sm
+        let outerRadius = DSRadii.lg
+        let shape = RoundedRectangle(cornerRadius: outerRadius, style: .continuous)
         let base = HStack(spacing: 0) {
             ForEach(items, id: \.self) { item in
                 segmentButton(for: item)
             }
         }
-        .padding(DSSpacing.xs)
+        .padding(padding)
         .background(shape.fill(usesGlass ? Color.clear : Color.surface))
         .clipShape(shape)
 
         Group {
             if usesGlass {
-                base
-                    .glassSurface(
-                        cornerRadius: DSRadii.md,
-                        tint: DesignSystem.tokens.glass.tint,
-                        borderColor: Color.border,
-                        shadow: DSShadows.soft,
-                        isInteractive: true
-                    )
-                    .clipShape(shape)
+                if #available(iOS 26.0, *) {
+                    let glass = Glass.regular.tint(DesignSystem.tokens.glass.tint).interactive()
+                    base
+                        .glassEffect(glass, in: .rect(cornerRadius: outerRadius))
+                } else {
+                    base
+                        .glassSurface(
+                            cornerRadius: outerRadius,
+                            tint: DesignSystem.tokens.glass.tint,
+                            borderColor: Color.border,
+                            shadow: DSShadows.soft,
+                            isInteractive: true
+                        )
+                        .clipShape(shape)
+                }
             } else {
                 base
                     .overlay(shape.stroke(Color.border, lineWidth: 1))
@@ -69,7 +77,7 @@ public struct DSSegmentedControl<T: Hashable>: View {
                 .padding(.vertical, DSSpacing.smd)
                 .background {
                     if isSelected {
-                        RoundedRectangle(cornerRadius: DSRadii.sm)
+                        RoundedRectangle(cornerRadius: DSRadii.md)
                             .fill(Color.themePrimary)
                             .matchedGeometryEffect(id: "indicator", in: namespace)
                     }

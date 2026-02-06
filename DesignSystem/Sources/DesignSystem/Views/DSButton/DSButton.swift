@@ -473,7 +473,7 @@ public struct DSIconButton: View {
         icon: String,
         style: DSButtonStyle = .tertiary,
         size: DSIconButtonSize = .medium,
-        usesGlass: Bool = false,
+        usesGlass: Bool = true,
         showsBackground: Bool = true,
         glassTint: Color? = DesignSystem.tokens.glass.tint,
         accessibilityLabel: String? = nil,

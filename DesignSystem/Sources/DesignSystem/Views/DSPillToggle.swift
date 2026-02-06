@@ -9,11 +9,10 @@ public struct DSPillToggle: View {
     let icon: String
     let usesGlass: Bool
     let accessibilityLabel: String?
-    @Namespace private var namespace
 
     public init(
         isOn: Binding<Bool>,
-        icon: String = "leaf",
+        icon: String = "checkmark",
         usesGlass: Bool = true,
         accessibilityLabel: String? = nil
     ) {
@@ -24,69 +23,66 @@ public struct DSPillToggle: View {
     }
 
     public var body: some View {
-        let pillSize: CGFloat = 52
-        let iconSize: CGFloat = 20
-        let dotSize: CGFloat = 8
-        let padding = DSSpacing.xs
-        let shape = RoundedRectangle(cornerRadius: DSRadii.lg, style: .continuous)
-        let selectionShape = RoundedRectangle(cornerRadius: DSRadii.sm, style: .continuous)
+        let pillSize: CGFloat = 44
+        let iconSize: CGFloat = 18
+        let dotSize: CGFloat = 10
+        let padding = DSSpacing.sm
+        let outerRadius = (pillSize + padding * 2) / 2
+        let shape = RoundedRectangle(cornerRadius: outerRadius, style: .continuous)
+        let selectionShape = RoundedRectangle(cornerRadius: DSRadii.md, style: .continuous)
 
         let content = HStack(spacing: 0) {
-            // On pill (icon)
-            Button {
-                guard !isOn else { return }
-                withAnimation(.spring(duration: 0.35, bounce: 0.2)) { isOn = true }
-            } label: {
-                ZStack {
-                    if isOn {
-                        selectionShape
-                            .fill(Color.themePrimary)
-                            .matchedGeometryEffect(id: "selection", in: namespace)
-                    }
-
-                    Image(systemName: icon)
-                        .font(.system(size: iconSize, weight: .medium))
-                        .foregroundStyle(isOn ? Color.textOnPrimary : Color.textTertiary)
-                }
-                .frame(width: pillSize, height: pillSize)
-            }
-            .buttonStyle(.plain)
-            .accessibilityHidden(true)
-
-            // Off pill (dot)
+            // Off pill (dot) — left
             Button {
                 guard isOn else { return }
                 withAnimation(.spring(duration: 0.35, bounce: 0.2)) { isOn = false }
             } label: {
-                ZStack {
-                    if !isOn {
-                        selectionShape
-                            .fill(Color.surfaceVariant.opacity(0.9))
-                            .matchedGeometryEffect(id: "selection", in: namespace)
-                    }
-
-                    Circle()
-                        .fill(isOn ? Color.textTertiary : Color.themePrimary)
-                        .frame(width: dotSize, height: dotSize)
-                }
-                .frame(width: pillSize, height: pillSize)
+                Circle()
+                    .fill(isOn ? Color.textSecondary : Color.themePrimary)
+                    .frame(width: dotSize, height: dotSize)
+                    .frame(width: pillSize, height: pillSize)
             }
             .buttonStyle(.plain)
             .accessibilityHidden(true)
+
+            // On pill (icon) — right
+            Button {
+                guard !isOn else { return }
+                withAnimation(.spring(duration: 0.35, bounce: 0.2)) { isOn = true }
+            } label: {
+                Image(systemName: icon)
+                    .font(.system(size: iconSize, weight: .medium))
+                    .foregroundStyle(isOn ? Color.textOnPrimary : Color.textTertiary)
+                    .frame(width: pillSize, height: pillSize)
+            }
+            .buttonStyle(.plain)
+            .accessibilityHidden(true)
+        }
+        .background(alignment: .leading) {
+            selectionShape
+                .fill(isOn ? Color.themePrimary : Color.surfaceVariant.opacity(0.5))
+                .frame(width: pillSize, height: pillSize)
+                .offset(x: isOn ? pillSize : 0)
         }
         .padding(padding)
         .background(shape.fill(usesGlass ? Color.clear : Color.surface))
 
         let styled = Group {
             if usesGlass {
-                content.glassSurface(
-                    cornerRadius: DSRadii.lg,
-                    tint: DesignSystem.tokens.glass.tint,
-                    borderColor: Color.border,
-                    shadow: DSShadows.soft,
-                    isInteractive: true
-                )
-                .clipShape(shape)
+                if #available(iOS 26.0, *) {
+                    let glass = Glass.regular.tint(DesignSystem.tokens.glass.tint).interactive()
+                    content
+                        .glassEffect(glass, in: .rect(cornerRadius: outerRadius))
+                } else {
+                    content.glassSurface(
+                        cornerRadius: outerRadius,
+                        tint: DesignSystem.tokens.glass.tint,
+                        borderColor: Color.border,
+                        shadow: DSShadows.soft,
+                        isInteractive: true
+                    )
+                    .clipShape(shape)
+                }
             } else {
                 content.overlay(
                     shape.stroke(Color.border, lineWidth: 1)

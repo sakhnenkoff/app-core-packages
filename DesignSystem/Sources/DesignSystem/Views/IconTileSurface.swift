@@ -36,23 +36,43 @@ public struct IconTileSurface<Content: View>: View {
         self.content = content()
     }
 
+    private var isCircular: Bool {
+        cornerRadius >= size / 2
+    }
+
     public var body: some View {
         let tile = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-        let base = content
-            .frame(width: size, height: size)
-            .background(tile.fill(fill))
 
         if usesGlass {
             let resolvedTint = glassTint ?? .clear
-            base.glassSurface(
-                cornerRadius: cornerRadius,
-                tint: resolvedTint,
-                borderColor: borderColor,
-                shadow: shadow,
-                isInteractive: isInteractive
-            )
+            if #available(iOS 26.0, *) {
+                let glass = Glass.regular.tint(resolvedTint)
+                let finalGlass = isInteractive ? glass.interactive() : glass
+                if isCircular {
+                    content
+                        .frame(width: size, height: size)
+                        .glassEffect(finalGlass, in: .capsule)
+                } else {
+                    content
+                        .frame(width: size, height: size)
+                        .glassEffect(finalGlass, in: .rect(cornerRadius: cornerRadius))
+                }
+            } else {
+                content
+                    .frame(width: size, height: size)
+                    .background(tile.fill(fill))
+                    .glassSurface(
+                        cornerRadius: cornerRadius,
+                        tint: resolvedTint,
+                        borderColor: borderColor,
+                        shadow: shadow,
+                        isInteractive: isInteractive
+                    )
+            }
         } else {
-            base
+            content
+                .frame(width: size, height: size)
+                .background(tile.fill(fill))
                 .overlay(tile.stroke(borderColor.opacity(borderWidth == 0 ? 0 : 0.6), lineWidth: borderWidth))
                 .shadow(color: shadow.color, radius: shadow.radius, x: shadow.x, y: shadow.y)
         }

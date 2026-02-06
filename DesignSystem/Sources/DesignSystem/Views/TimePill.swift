@@ -44,7 +44,7 @@ public struct TimePill: View {
         time: Binding<Date>,
         isHighlighted: Bool = true,
         usesGlass: Bool = false,
-        showsAccessory: Bool = true,
+        showsAccessory: Bool = false,
         accessibilityLabel: String? = nil
     ) {
         self.mode = .interactive(time)
@@ -114,12 +114,7 @@ public struct TimePill: View {
                     let finalGlass = isInteractive ? glass.interactive() : glass
 
                     textContent
-                        .background {
-                            Capsule()
-                                .fill(Color.clear)
-                                .glassEffect(finalGlass, in: .capsule)
-                        }
-                        .clipShape(Capsule())
+                        .glassEffect(finalGlass, in: .capsule)
                 } else {
                     textContent
                         .background(Capsule().fill(Color.clear))
