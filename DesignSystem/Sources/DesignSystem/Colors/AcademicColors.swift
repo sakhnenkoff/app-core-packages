@@ -109,87 +109,87 @@ public extension Color {
     // MARK: - Adaptive Colors (Auto-switch based on color scheme)
 
     /// Adaptive primary color - mint (light) / bright mint (dark)
-    public static var adaptivePrimary: Color {
+    static var adaptivePrimary: Color {
         Color(light: .yaleBlue, dark: .skyBlue)
     }
 
     /// Adaptive secondary color - ink (light) / soft slate (dark)
-    public static var adaptiveSecondary: Color {
+    static var adaptiveSecondary: Color {
         Color(light: .oxfordNavy, dark: .periwinkle)
     }
 
     /// Adaptive accent color - teal (light) / mint (dark)
-    public static var adaptiveAccent: Color {
+    static var adaptiveAccent: Color {
         Color(light: .prussianBlue, dark: .steelBlue)
     }
 
     /// Adaptive info color - sky (light) / sky (dark)
-    public static var adaptiveInfo: Color {
+    static var adaptiveInfo: Color {
         Color(light: .powderBlue, dark: .lightPowderBlue)
     }
 
     /// Adaptive success color - green (light) / green (dark)
-    public static var adaptiveSuccess: Color {
+    static var adaptiveSuccess: Color {
         Color(light: .sageGreen, dark: .lightSage)
     }
 
     /// Adaptive warning color - amber (light) / amber (dark)
-    public static var adaptiveWarning: Color {
+    static var adaptiveWarning: Color {
         Color(light: .goldenrod, dark: .lightGold)
     }
 
     /// Adaptive error color - red (light) / red (dark)
-    public static var adaptiveError: Color {
+    static var adaptiveError: Color {
         Color(light: .coralRed, dark: .lightCoral)
     }
 
     /// Adaptive primary background - off-white (light) / midnight (dark)
-    public static var adaptiveBackgroundPrimary: Color {
+    static var adaptiveBackgroundPrimary: Color {
         Color(light: .canvasWhite, dark: .midnight)
     }
 
     /// Adaptive secondary background - white (light) / midnight secondary (dark)
-    public static var adaptiveBackgroundSecondary: Color {
+    static var adaptiveBackgroundSecondary: Color {
         Color(light: .cloudWhite, dark: .midnightSecondary)
     }
 
     /// Adaptive tertiary background - mist (light) / deep slate (dark)
-    public static var adaptiveTertiaryBackground: Color {
+    static var adaptiveTertiaryBackground: Color {
         Color(light: .mintCream, dark: .paleMint)
     }
 
     /// Adaptive surface - white (light) / dark surface (dark)
-    public static var adaptiveSurface: Color {
+    static var adaptiveSurface: Color {
         Color(light: .cloudWhite, dark: .surfaceDark)
     }
 
     /// Adaptive surface variant - tinted surface (light) / deep surface (dark)
-    public static var adaptiveSurfaceVariant: Color {
+    static var adaptiveSurfaceVariant: Color {
         Color(light: .surfaceTint, dark: .surfaceVariantDark)
     }
 
     /// Adaptive border color
-    public static var adaptiveBorder: Color {
+    static var adaptiveBorder: Color {
         Color(light: .borderLight, dark: .borderDark)
     }
 
     /// Adaptive divider color
-    public static var adaptiveDivider: Color {
+    static var adaptiveDivider: Color {
         Color(light: .dividerLight, dark: .dividerDark)
     }
 
     /// Adaptive primary text color
-    public static var adaptiveTextPrimary: Color {
+    static var adaptiveTextPrimary: Color {
         Color(light: .textPrimaryLight, dark: .textPrimaryDark)
     }
 
     /// Adaptive secondary text color
-    public static var adaptiveTextSecondary: Color {
+    static var adaptiveTextSecondary: Color {
         Color(light: .textSecondaryLight, dark: .textSecondaryDark)
     }
 
     /// Adaptive tertiary text color
-    public static var adaptiveTextTertiary: Color {
+    static var adaptiveTextTertiary: Color {
         Color(light: .textTertiaryLight, dark: .textTertiaryDark)
     }
 }

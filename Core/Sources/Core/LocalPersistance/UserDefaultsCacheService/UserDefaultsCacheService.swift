@@ -8,7 +8,8 @@ public protocol UserDefaultsCacheServiceProtocol: Sendable {
 }
 
 public struct UserDefaultsCacheService: UserDefaultsCacheServiceProtocol {
-    // UserDefaults is thread-safe internally but not marked Sendable
+    // SAFETY: Access is delegated to UserDefaults, which is documented as thread-safe.
+    // TODO(CONC-004): Revisit this annotation when Foundation's sendability coverage improves.
     private nonisolated(unsafe) let userDefaults: UserDefaults
 
     public init(userDefaults: UserDefaults = .standard) {

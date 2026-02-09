@@ -5,40 +5,46 @@ public enum DesignSystem {
 
     // MARK: - Private Storage
 
-    nonisolated(unsafe) private static var _theme: any Theme = DefaultTheme()
+    // SAFETY: All mutable storage access is protected by `lock`.
+    // TODO(CONC-006): Replace this with a fully compiler-verified synchronization primitive.
+    private final class Storage: @unchecked Sendable {
+        var theme: any Theme = DefaultTheme()
+        var isConfigured = false
+    }
+
+    private static let storage = Storage()
     private static let lock = NSLock()
-    nonisolated(unsafe) private static var isConfigured = false
 
     // MARK: - Public API
 
     /// The current theme. Read-only after configuration.
     public static var theme: any Theme {
-        _theme
+        withLock { $0.theme }
     }
 
     /// Convenience accessor for colors
     public static var colors: ColorPalette {
-        _theme.colors
+        withLock { $0.theme.colors }
     }
 
     /// Convenience accessor for typography
     public static var typography: TypographyScale {
-        _theme.typography
+        withLock { $0.theme.typography }
     }
 
     /// Convenience accessor for spacing
     public static var spacing: SpacingScale {
-        _theme.spacing
+        withLock { $0.theme.spacing }
     }
 
     /// Convenience accessor for layout
     public static var layout: LayoutScale {
-        _theme.layout
+        withLock { $0.theme.layout }
     }
 
     /// Convenience accessor for tokens
     public static var tokens: DesignTokens {
-        _theme.tokens
+        withLock { $0.theme.tokens }
     }
 
     /// Configure the design system with a custom theme.
@@ -46,21 +52,22 @@ public enum DesignSystem {
     /// - Parameter theme: The theme to use throughout the app
     /// - Warning: This should only be called once. Subsequent calls will be ignored.
     public static func configure(theme: any Theme) {
-        lock.lock()
-        defer { lock.unlock() }
+        let configuredTheme = withLock { state -> (any Theme)? in
+            guard !state.isConfigured else { return nil }
+            state.theme = theme
+            state.isConfigured = true
+            return state.theme
+        }
 
-        guard !isConfigured else {
+        guard let configuredTheme else {
             #if DEBUG
             print("⚠️ DesignSystem.configure() called multiple times. Ignoring subsequent call.")
             #endif
             return
         }
 
-        _theme = theme
-        isConfigured = true
-
         #if canImport(UIKit)
-        DesignSystemAppearance.apply(using: theme.tokens)
+        DesignSystemAppearance.apply(using: configuredTheme.tokens)
         #endif
     }
 
@@ -79,10 +86,16 @@ public enum DesignSystem {
     #if DEBUG
     /// Reset the design system for testing purposes only
     internal static func reset() {
-        lock.lock()
-        defer { lock.unlock() }
-        _theme = DefaultTheme()
-        isConfigured = false
+        withLock { state in
+            state.theme = DefaultTheme()
+            state.isConfigured = false
+        }
     }
     #endif
+
+    private static func withLock<T>(_ operation: (Storage) throws -> T) rethrows -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return try operation(storage)
+    }
 }

@@ -27,7 +27,11 @@ let package = Package(
             name: "DesignSystem",
             dependencies: [],
             path: "DesignSystem/Sources/DesignSystem",
-            resources: [.process("Resources")]
+            resources: [.process("Resources")],
+            swiftSettings: [
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
+            ]
         ),
         .testTarget(
             name: "DesignSystemTests",
@@ -39,12 +43,20 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftKeychainWrapper", package: "SwiftKeychainWrapper")
             ],
-            path: "Core/Sources/Core"
+            path: "Core/Sources/Core",
+            swiftSettings: [
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
+            ]
         ),
         .target(
             name: "CoreMock",
             dependencies: ["Core"],
-            path: "Core/Sources/CoreMock"
+            path: "Core/Sources/CoreMock",
+            swiftSettings: [
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances")
+            ]
         ),
         .testTarget(
             name: "CoreTests",

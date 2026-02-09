@@ -230,8 +230,6 @@ public enum DSButtonStyle {
             return Color.textPrimary.opacity(0.02)
         case .destructive:
             return Color.error.opacity(0.25)
-        default:
-            return .clear
         }
     }
 }

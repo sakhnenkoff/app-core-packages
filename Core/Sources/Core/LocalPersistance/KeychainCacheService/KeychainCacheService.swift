@@ -13,7 +13,8 @@ public protocol KeychainCacheServiceProtocol: Sendable {
 }
 
 public struct KeychainCacheService: KeychainCacheServiceProtocol {
-    // KeychainWrapper is thread-safe internally but not marked Sendable
+    // SAFETY: Access is delegated to KeychainWrapper, which is internally synchronized.
+    // TODO(CONC-005): Remove this annotation when SwiftKeychainWrapper exposes Sendable conformance.
     private nonisolated(unsafe) let keychain: KeychainWrapper
 
     public init(keychain: KeychainWrapper = .standard) {

@@ -5,16 +5,23 @@ public protocol NetworkingServiceProtocol: Sendable {
     func send(_ request: URLRequest) async throws
 }
 
+// SAFETY: Stored state is immutable; decoding uses a new JSONDecoder per call.
+// TODO(CONC-002): Remove @unchecked Sendable after Foundation sendability reaches full coverage.
 public final class NetworkingService: NetworkingServiceProtocol, @unchecked Sendable {
     private let urlSession: URLSession
-    private let decoder: JSONDecoder
+    private let decodeStrategy: DecodeStrategy
 
     public init(
         urlSession: URLSession = .shared,
         decoder: JSONDecoder = JSONDecoder()
     ) {
         self.urlSession = urlSession
-        self.decoder = decoder
+        self.decodeStrategy = DecodeStrategy(
+            dateDecodingStrategy: decoder.dateDecodingStrategy,
+            dataDecodingStrategy: decoder.dataDecodingStrategy,
+            nonConformingFloatDecodingStrategy: decoder.nonConformingFloatDecodingStrategy,
+            keyDecodingStrategy: decoder.keyDecodingStrategy
+        )
     }
 
     public func send<T: Decodable & Sendable>(_ request: URLRequest) async throws -> T {
@@ -59,9 +66,21 @@ public final class NetworkingService: NetworkingServiceProtocol, @unchecked Send
 
     private func decode<T: Decodable>(_ data: Data) throws -> T {
         do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = decodeStrategy.dateDecodingStrategy
+            decoder.dataDecodingStrategy = decodeStrategy.dataDecodingStrategy
+            decoder.nonConformingFloatDecodingStrategy = decodeStrategy.nonConformingFloatDecodingStrategy
+            decoder.keyDecodingStrategy = decodeStrategy.keyDecodingStrategy
             return try decoder.decode(T.self, from: data)
         } catch {
             throw APIError.decoding(error: error)
         }
     }
+}
+
+private struct DecodeStrategy {
+    let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy
+    let dataDecodingStrategy: JSONDecoder.DataDecodingStrategy
+    let nonConformingFloatDecodingStrategy: JSONDecoder.NonConformingFloatDecodingStrategy
+    let keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy
 }
