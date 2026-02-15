@@ -9,7 +9,7 @@ public struct SketchIcon: View {
     public init(
         systemName: String,
         size: CGFloat = 20,
-        color: Color = Color.themePrimary
+        color: Color = Color.textSecondary
     ) {
         self.systemName = systemName
         self.size = size
@@ -19,7 +19,7 @@ public struct SketchIcon: View {
     public var body: some View {
         Image(systemName: systemName)
             .symbolRenderingMode(.monochrome)
-            .font(.system(size: size, weight: .regular, design: .monospaced))
+            .font(.system(size: size, weight: .medium, design: .rounded))
             .foregroundStyle(color)
     }
 }

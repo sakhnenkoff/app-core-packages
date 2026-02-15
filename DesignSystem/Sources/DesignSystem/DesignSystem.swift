@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 
 /// Central design system singleton for theme management
@@ -9,6 +10,7 @@ public enum DesignSystem {
     // TODO(CONC-006): Replace this with a fully compiler-verified synchronization primitive.
     private final class Storage: @unchecked Sendable {
         var theme: any Theme = DefaultTheme()
+        var themePreset: ThemePreset? = .defaultTheme
         var isConfigured = false
     }
 
@@ -20,6 +22,11 @@ public enum DesignSystem {
     /// The current theme. Read-only after configuration.
     public static var theme: any Theme {
         withLock { $0.theme }
+    }
+
+    /// The current theme preset if configured via presets.
+    public static var currentThemePreset: ThemePreset? {
+        withLock { $0.themePreset }
     }
 
     /// Convenience accessor for colors
@@ -55,6 +62,7 @@ public enum DesignSystem {
         let configuredTheme = withLock { state -> (any Theme)? in
             guard !state.isConfigured else { return nil }
             state.theme = theme
+            state.themePreset = nil
             state.isConfigured = true
             return state.theme
         }
@@ -71,14 +79,59 @@ public enum DesignSystem {
         #endif
     }
 
+    /// Configure the design system with a built-in preset.
+    /// Must be called once at app launch, before any UI is rendered.
+    public static func configure(themePreset: ThemePreset) {
+        let configuredTheme = withLock { state -> (any Theme)? in
+            guard !state.isConfigured else { return nil }
+            state.theme = themePreset.makeTheme()
+            state.themePreset = themePreset
+            state.isConfigured = true
+            return state.theme
+        }
+
+        guard let configuredTheme else {
+            #if DEBUG
+            print("⚠️ DesignSystem.configure(themePreset:) called multiple times. Ignoring subsequent call.")
+            #endif
+            return
+        }
+
+        #if canImport(UIKit)
+        DesignSystemAppearance.apply(using: configuredTheme.tokens)
+        #endif
+    }
+
     /// Configure with the default theme (useful for explicit initialization)
     public static func configureWithDefaults() {
-        configure(theme: DefaultTheme())
+        configure(themePreset: .defaultTheme)
     }
 
     /// Register custom fonts if needed
     public static func registerFonts() {
         // Add font registration logic here if using custom fonts
+    }
+
+    public static let themeDidChangeNotification = Notification.Name("DesignSystem.themeDidChange")
+
+    /// Reconfigure theme during runtime for debug-only visual testing.
+    public static func reconfigureForDebug(themePreset: ThemePreset) {
+        let reconfiguredTheme = withLock { state -> (any Theme) in
+            state.theme = themePreset.makeTheme()
+            state.themePreset = themePreset
+            state.isConfigured = true
+            return state.theme
+        }
+
+        #if canImport(UIKit)
+        DesignSystemAppearance.apply(using: reconfiguredTheme.tokens)
+        #endif
+
+        NotificationCenter.default.post(
+            name: themeDidChangeNotification,
+            object: nil,
+            userInfo: ["preset": themePreset.rawValue]
+        )
     }
 
     // MARK: - Testing Support
@@ -88,6 +141,7 @@ public enum DesignSystem {
     internal static func reset() {
         withLock { state in
             state.theme = DefaultTheme()
+            state.themePreset = .defaultTheme
             state.isConfigured = false
         }
     }

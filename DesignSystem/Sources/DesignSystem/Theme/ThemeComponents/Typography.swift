@@ -2,9 +2,10 @@ import SwiftUI
 
 /// Defines a single text style with all its attributes
 public struct TextStyle: Sendable {
-    public let font: Font
     public let size: CGFloat
     public let weight: Font.Weight
+    public let design: Font.Design
+    public let customFontName: String?
 
     public init(
         size: CGFloat,
@@ -14,12 +15,16 @@ public struct TextStyle: Sendable {
     ) {
         self.size = size
         self.weight = weight
+        self.design = design
+        self.customFontName = customFont
+    }
 
-        if let customFont {
-            self.font = .custom(customFont, size: size).weight(weight)
-        } else {
-            self.font = .system(size: size, weight: weight, design: design)
+    public var font: Font {
+        if let customFontName {
+            return .custom(customFontName, size: size).weight(weight)
         }
+
+        return .system(size: size, weight: weight, design: design)
     }
 }
 
@@ -89,3 +94,60 @@ public struct TypographyScale: Sendable {
         self.buttonSmall = buttonSmall
     }
 }
+
+#if canImport(UIKit)
+import UIKit
+
+extension TextStyle {
+    func uiFont(weightOverride: UIFont.Weight? = nil) -> UIFont {
+        let effectiveWeight = weightOverride ?? weight.uiKitWeight
+
+        if let customFontName, let customFont = UIFont(name: customFontName, size: size) {
+            return customFont.withWeight(effectiveWeight)
+        }
+
+        let descriptor = UIFont.systemFont(ofSize: size, weight: effectiveWeight).fontDescriptor
+            .withDesign(design.uiKitDesign) ?? UIFont.systemFont(ofSize: size, weight: effectiveWeight).fontDescriptor
+
+        return UIFont(descriptor: descriptor, size: size)
+    }
+}
+
+private extension UIFont {
+    func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        let descriptor = fontDescriptor.addingAttributes([
+            .traits: [UIFontDescriptor.TraitKey.weight: weight]
+        ])
+        return UIFont(descriptor: descriptor, size: pointSize)
+    }
+}
+
+private extension Font.Weight {
+    var uiKitWeight: UIFont.Weight {
+        switch self {
+        case .ultraLight: .ultraLight
+        case .thin: .thin
+        case .light: .light
+        case .regular: .regular
+        case .medium: .medium
+        case .semibold: .semibold
+        case .bold: .bold
+        case .heavy: .heavy
+        case .black: .black
+        default: .regular
+        }
+    }
+}
+
+private extension Font.Design {
+    var uiKitDesign: UIFontDescriptor.SystemDesign {
+        switch self {
+        case .default: .default
+        case .serif: .serif
+        case .rounded: .rounded
+        case .monospaced: .monospaced
+        @unknown default: .default
+        }
+    }
+}
+#endif

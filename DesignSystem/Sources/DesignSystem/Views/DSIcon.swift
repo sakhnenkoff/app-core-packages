@@ -42,8 +42,8 @@ public struct DSIcon: View {
 
     public var body: some View {
         Image(systemName: systemName)
-            .font(.system(size: size.fontSize, weight: size.weight))
-            .foregroundStyle(color ?? Color.primary)
+            .font(.system(size: size.fontSize, weight: size.weight, design: .rounded))
+            .foregroundStyle(color ?? Color.textSecondary)
     }
 }
 

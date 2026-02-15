@@ -2,10 +2,16 @@ import SwiftUI
 
 public struct DSListCard<Content: View>: View {
     private let spacing: CGFloat
+    private let depth: DSSurfaceDepth
     private let content: Content
 
-    public init(spacing: CGFloat = 0, @ViewBuilder content: () -> Content) {
+    public init(
+        spacing: CGFloat = 0,
+        depth: DSSurfaceDepth = .raised,
+        @ViewBuilder content: () -> Content
+    ) {
         self.spacing = spacing
+        self.depth = depth
         self.content = content()
     }
 
@@ -13,6 +19,6 @@ public struct DSListCard<Content: View>: View {
         VStack(spacing: spacing) {
             content
         }
-        .cardSurface(cornerRadius: DSRadii.lg)
+        .cardSurface(cornerRadius: DSRadii.lg, depth: depth)
     }
 }

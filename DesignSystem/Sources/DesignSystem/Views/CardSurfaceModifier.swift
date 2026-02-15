@@ -1,7 +1,25 @@
 import SwiftUI
 
+public enum DSSurfaceDepth: Sendable {
+    case flat
+    case raised
+    case lifted
+
+    var shadowToken: ShadowToken {
+        switch self {
+        case .flat:
+            ShadowToken(color: .clear, radius: 0, y: 0)
+        case .raised:
+            DSShadows.card
+        case .lifted:
+            DSShadows.lifted
+        }
+    }
+}
+
 public struct CardSurfaceModifier: ViewModifier {
     let cornerRadius: CGFloat
+    let depth: DSSurfaceDepth
     let tint: Color
     let usesGlass: Bool
     let isInteractive: Bool
@@ -12,22 +30,25 @@ public struct CardSurfaceModifier: ViewModifier {
 
     public init(
         cornerRadius: CGFloat = DSRadii.lg,
+        depth: DSSurfaceDepth = .raised,
         tint: Color = Color.surface,
         usesGlass: Bool = false,
         isInteractive: Bool = false,
         borderColor: Color = Color.border,
-        shadowColor: Color = DSShadows.card.color,
-        shadowRadius: CGFloat = DSShadows.card.radius,
-        shadowYOffset: CGFloat = DSShadows.card.y
+        shadowColor: Color? = nil,
+        shadowRadius: CGFloat? = nil,
+        shadowYOffset: CGFloat? = nil
     ) {
+        let token = depth.shadowToken
         self.cornerRadius = cornerRadius
+        self.depth = depth
         self.tint = tint
         self.usesGlass = usesGlass
         self.isInteractive = isInteractive
         self.borderColor = borderColor
-        self.shadowColor = shadowColor
-        self.shadowRadius = shadowRadius
-        self.shadowYOffset = shadowYOffset
+        self.shadowColor = shadowColor ?? token.color
+        self.shadowRadius = shadowRadius ?? token.radius
+        self.shadowYOffset = shadowYOffset ?? token.y
     }
 
     public func body(content: Content) -> some View {
@@ -53,17 +74,19 @@ public struct CardSurfaceModifier: ViewModifier {
 public extension View {
     func cardSurface(
         cornerRadius: CGFloat = DSRadii.lg,
+        depth: DSSurfaceDepth = .raised,
         tint: Color = Color.surface,
         usesGlass: Bool = false,
         isInteractive: Bool = false,
         borderColor: Color = Color.border,
-        shadowColor: Color = DSShadows.card.color,
-        shadowRadius: CGFloat = DSShadows.card.radius,
-        shadowYOffset: CGFloat = DSShadows.card.y
+        shadowColor: Color? = nil,
+        shadowRadius: CGFloat? = nil,
+        shadowYOffset: CGFloat? = nil
     ) -> some View {
         modifier(
             CardSurfaceModifier(
                 cornerRadius: cornerRadius,
+                depth: depth,
                 tint: tint,
                 usesGlass: usesGlass,
                 isInteractive: isInteractive,

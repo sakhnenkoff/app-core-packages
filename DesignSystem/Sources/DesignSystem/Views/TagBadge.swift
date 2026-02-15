@@ -7,7 +7,7 @@ public struct TagBadge: View {
 
     public init(
         text: String,
-        tint: Color = Color.themePrimary,
+        tint: Color = Color.textSecondary,
         usesGlass: Bool = false
     ) {
         self.text = text

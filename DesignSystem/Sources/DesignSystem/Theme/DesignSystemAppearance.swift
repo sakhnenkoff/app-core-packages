@@ -10,14 +10,8 @@ public enum DesignSystemAppearance {
             let accentColor = UIColor(tokens.colors.primary)
             let dividerColor = UIColor(tokens.colors.divider)
 
-            let titleFont = UIFont.monospacedSystemFont(
-                ofSize: tokens.typography.headlineLarge.size,
-                weight: .semibold
-            )
-            let largeTitleFont = UIFont.monospacedSystemFont(
-                ofSize: tokens.typography.titleLarge.size,
-                weight: .semibold
-            )
+            let titleFont = tokens.typography.headlineLarge.uiFont(weightOverride: .semibold)
+            let largeTitleFont = tokens.typography.titleLarge.uiFont(weightOverride: .semibold)
 
             // Use default background to properly adapt to dark/light mode
             let navAppearance = UINavigationBarAppearance()
@@ -43,14 +37,8 @@ public enum DesignSystemAppearance {
             tabAppearance.configureWithDefaultBackground()
             tabAppearance.shadowColor = dividerColor
 
-            let normalFont = UIFont.monospacedSystemFont(
-                ofSize: tokens.typography.bodySmall.size,
-                weight: .regular
-            )
-            let selectedFont = UIFont.monospacedSystemFont(
-                ofSize: tokens.typography.bodySmall.size,
-                weight: .semibold
-            )
+            let normalFont = tokens.typography.bodySmall.uiFont(weightOverride: .regular)
+            let selectedFont = tokens.typography.bodySmall.uiFont(weightOverride: .semibold)
 
             let normalAttributes: [NSAttributedString.Key: Any] = [
                 .font: normalFont,

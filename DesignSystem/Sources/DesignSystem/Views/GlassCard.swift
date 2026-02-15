@@ -27,11 +27,9 @@ public struct GlassCard<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .cardSurface(
                 cornerRadius: cornerRadius,
+                depth: .lifted,
                 tint: tint,
-                usesGlass: usesGlass,
-                shadowColor: DSShadows.card.color,
-                shadowRadius: DSShadows.card.radius,
-                shadowYOffset: DSShadows.card.y
+                usesGlass: usesGlass
             )
             .rotation3DEffect(.degrees(tilt), axis: (x: 1, y: -0.2, z: 0))
     }

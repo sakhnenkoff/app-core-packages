@@ -15,8 +15,8 @@ public struct DSListRow<Trailing: View>: View {
         title: String,
         subtitle: String? = nil,
         leadingIcon: String? = nil,
-        leadingTint: Color = Color.themePrimary,
-        titleColor: Color = Color.themePrimary,
+        leadingTint: Color = Color.textSecondary,
+        titleColor: Color = Color.textPrimary,
         minHeight: CGFloat = DSLayout.listRowMinHeight,
         action: (() -> Void)? = nil
     ) where Trailing == EmptyView {
@@ -34,8 +34,8 @@ public struct DSListRow<Trailing: View>: View {
         title: String,
         subtitle: String? = nil,
         leadingIcon: String? = nil,
-        leadingTint: Color = Color.themePrimary,
-        titleColor: Color = Color.themePrimary,
+        leadingTint: Color = Color.textSecondary,
+        titleColor: Color = Color.textPrimary,
         minHeight: CGFloat = DSLayout.listRowMinHeight,
         action: (() -> Void)? = nil,
         @ViewBuilder trailing: () -> Trailing
