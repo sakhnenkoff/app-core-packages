@@ -31,7 +31,8 @@ final class DesignSystemTests: XCTestCase {
     }
 
     func testThemePresetResolvesToExpectedThemes() {
-        XCTAssertTrue(ThemePreset.defaultTheme.makeTheme() is DefaultTheme)
+        XCTAssertTrue(ThemePreset.defaultTheme.makeTheme() is CloudPetalTheme)
+        XCTAssertTrue(ThemePreset.classicMono.makeTheme() is DefaultTheme)
         XCTAssertTrue(ThemePreset.editorialGarden.makeTheme() is EditorialGardenTheme)
         XCTAssertTrue(ThemePreset.porcelainTech.makeTheme() is PorcelainTechTheme)
         XCTAssertTrue(ThemePreset.botanicalLuxe.makeTheme() is BotanicalLuxeTheme)
@@ -46,6 +47,7 @@ final class DesignSystemTests: XCTestCase {
 
     func testDirectionalThemesUseHybridTypographyRoles() {
         let themes: [any Theme] = [
+            CloudPetalTheme(),
             EditorialGardenTheme(),
             PorcelainTechTheme(),
             BotanicalLuxeTheme()

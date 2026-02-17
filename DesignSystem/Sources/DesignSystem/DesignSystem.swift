@@ -9,7 +9,7 @@ public enum DesignSystem {
     // SAFETY: All mutable storage access is protected by `lock`.
     // TODO(CONC-006): Replace this with a fully compiler-verified synchronization primitive.
     private final class Storage: @unchecked Sendable {
-        var theme: any Theme = DefaultTheme()
+        var theme: any Theme = CloudPetalTheme()
         var themePreset: ThemePreset? = .defaultTheme
         var isConfigured = false
     }
@@ -140,7 +140,7 @@ public enum DesignSystem {
     /// Reset the design system for testing purposes only
     internal static func reset() {
         withLock { state in
-            state.theme = DefaultTheme()
+            state.theme = CloudPetalTheme()
             state.themePreset = .defaultTheme
             state.isConfigured = false
         }
