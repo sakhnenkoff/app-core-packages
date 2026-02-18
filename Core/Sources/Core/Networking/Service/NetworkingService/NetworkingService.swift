@@ -7,6 +7,7 @@ public protocol NetworkingServiceProtocol: Sendable {
 
 // SAFETY: Stored state is immutable; decoding uses a new JSONDecoder per call.
 // TODO(CONC-002): Remove @unchecked Sendable after Foundation sendability reaches full coverage.
+@available(iOS 15.0, macOS 12.0, *)
 public final class NetworkingService: NetworkingServiceProtocol, @unchecked Sendable {
     private let urlSession: URLSession
     private let decodeStrategy: DecodeStrategy
